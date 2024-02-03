@@ -9,6 +9,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+
 ```
 
 ## 1 Primer Punto
@@ -37,6 +38,7 @@ l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
 l_edad = list(edad= runif(50,5,50)) # Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep("años",50)) # Creamos una lista con la palabra "años" repetida 50 veces
 
+
 # Para la lista de nombres vamos a crear 2 vectores, uno con nombres y otro con apellidos tomados de los nombres y apellidos de los integrantes del curso; luego usaremos la función sample para tomar de los vectores elementos aleatorios, finalmente uniremos los nombres y apellidos aleatorios para formar la lista. Fuente: https://r-coder.com/funcion-sample-r/
 
 rapellidos <- c("Aguirre", "Arteaga", "Borda", "Caballero", "Carbonell", "Carvajal", "Criollo", "Diaz", "Duquino", "Escobar", "Fernandez", "Fonseca", "Galindo", "Gonzalez", "Hernandez", "Huertas", "Karaman", "Lasso", "Naranjo", "Navarrete", "Navarro", "Neusa", "Osorno", "Palacios", "Patiño", "Perdomo", "Prada", "Rueda", "Villamizar", "Viveros", "Zuluaga", "Valencia", "Gomez", "Bejarano", "Silva", "Ortega", "Huerfano", "Cardenas", "Barreto", "Carreño", "Rocha", "Correa", "Jimenez", "Barragan", "Rincon", "Ramirez", "Charry", "Munoz", "Pedreros", "Lian", "Jaramillo", "DeZulategi", "Amaya", "Corredor", "Ortiz", "Rodriguez", "Martinez", "Olmos", "Echeverri", "Arias", "Moreno", "Rojas", "Aguilar", "Cuellar", "Guacheta", "Vargas", "Muaoz", "DelCastillo")
@@ -52,4 +54,12 @@ l_nombres = list(nom_apellido)
 ```
 
 ### 1.3)	Creen una lista en la que cada elemento j sea la concatenación de los elementos j de las tres listas creadas en el punto anterior. Ordenen y/o agreguen caracteres a cada elemento de la lista para que se consolide una oración con orden semántico que refleje la edad del individuo. 
+
+```{r lista concatenada}
+
+l_oracion = list(c(l_nombres$nom_apellido, " tiene ", l_edad$edad, " ", l_texto$variable))
+
+l_oracion
+
+```
 
