@@ -92,3 +92,19 @@ for (j in 1:length(l_oracion[[1]])){
 
 
 ```
+### 1.5)	Programen una función que tome como entrada una lista con valores numéricos y que su output sea el promedio de los valores de la lista y la desviación estándar asociada a la misma muestra. Usando esta función respondan: ¿Cuál es la edad promedio de su lista? ¿Cuál es la desviación estándar? 
+
+```{r loop creación de función}
+
+  funcion_param_stat <- function(lista_edad){
+    
+    media <- mean(lista_edad)
+    des_est <- sd(lista_edad)
+    print(paste("El promedio es",media))
+    print(paste("La desviación estándar es",signif(des_est,4)))
+    
+  }
+
+funcion_param_stat(l_edad[[1]])
+
+```
