@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### 1.1) Definan una semilla para trabajar durante el script. Respondan: ¿Por qué es importante definir una semilla?
 
-Respuesta: Según R-Coder.com, la definición de una semilla es la inicialización de un generador de números pseudoaleatorios, que son utilizados para la simulación de distribuciones de probabilidad que sean requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos números generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla. 
+Respuesta: Según R-Coder.com, la definición de una semilla es la inicialización de un generador de números pseudoaleatorios, que son utilizados para la simulación de distribuciones de probabilidad que sean requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos números generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla.
 
 Es importante definir una semilla en un algoritmo que vaya a utilizar un generador de números con distribuciones de probabilidad ya que permite que otras personas puedan llegar al mismo resultado con el algoritmo y los datos utilizados. Si no se definiera, los resultados cambiarían cada vez que se ejecutara el código, dada la naturaleza de los datos que se está utilizando.
 
@@ -28,8 +28,7 @@ set.seed(31012024)
 
 ```
 
-### 1.2)	Primero, creen una lista con números secuenciales de 1 en 1 desde el 1 hasta el 50. Luego, creen tres (3) listas diferentes que contengan respectivamente: una variable numérica de clase int que se distribuya de forma uniforme entre el intervalo 5 a 50, una lista que repita el carácter “Años” y una lista con nombres propios aleatorios de personas, todas las cuatro (4) listas deben tener el mismo tamaño.
-
+### 1.2) Primero, creen una lista con números secuenciales de 1 en 1 desde el 1 hasta el 50. Luego, creen tres (3) listas diferentes que contengan respectivamente: una variable numérica de clase int que se distribuya de forma uniforme entre el intervalo 5 a 50, una lista que repita el carácter “Años” y una lista con nombres propios aleatorios de personas, todas las cuatro (4) listas deben tener el mismo tamaño.
 
 ```{r listas}
 
@@ -53,7 +52,7 @@ l_nombres = list(nom_apellido)
 
 ```
 
-### 1.3)	Creen una lista en la que cada elemento j sea la concatenación de los elementos j de las tres listas creadas en el punto anterior. Ordenen y/o agreguen caracteres a cada elemento de la lista para que se consolide una oración con orden semántico que refleje la edad del individuo. 
+### 1.3) Creen una lista en la que cada elemento j sea la concatenación de los elementos j de las tres listas creadas en el punto anterior. Ordenen y/o agreguen caracteres a cada elemento de la lista para que se consolide una oración con orden semántico que refleje la edad del individuo.
 
 ```{r lista concatenada}
 
@@ -69,7 +68,8 @@ for (i in 1:length(l_nombres[[1]])){
 l_oracion
 
 ```
-### 1.4)	Usando un loop realicen un código que presente (print) la edad de cada uno de los individuos dentro de las listas, pero únicamente si el nombre del individuo empieza por una letra distinta de J y la edad sea distinta de un número par.
+
+### 1.4) Usando un loop realicen un código que presente (print) la edad de cada uno de los individuos dentro de las listas, pero únicamente si el nombre del individuo empieza por una letra distinta de J y la edad sea distinta de un número par.
 
 ```{r loop selección de J}
 
@@ -92,15 +92,16 @@ for (j in 1:length(l_oracion[[1]])){
 
 
 ```
-### 1.5)	Programen una función que tome como entrada una lista con valores numéricos y que su output sea el promedio de los valores de la lista y la desviación estándar asociada a la misma muestra. Usando esta función respondan: ¿Cuál es la edad promedio de su lista? ¿Cuál es la desviación estándar? 
 
-```{r loop creación de función}
+### 1.5) Programen una función que tome como entrada una lista con valores numéricos y que su output sea el promedio de los valores de la lista y la desviación estándar asociada a la misma muestra. Usando esta función respondan: ¿Cuál es la edad promedio de su lista? ¿Cuál es la desviación estándar?
+
+```{r creación de función - promedio y desviación}
 
   funcion_param_stat <- function(lista_edad){
     
     media <- mean(lista_edad)
     des_est <- sd(lista_edad)
-    print(paste("El promedio es",media))
+    print(paste("La edad promedio es",media))
     print(paste("La desviación estándar es",signif(des_est,4)))
     
   }
@@ -108,3 +109,61 @@ for (j in 1:length(l_oracion[[1]])){
 funcion_param_stat(l_edad[[1]])
 
 ```
+
+### 1.6)	Programen una función que tome como entrada una lista con valores numéricos y estandarice los valores. Es decir, que los transforme a una normal estándar los datos. Apliquen las funciones que desarrollaron en el literal 1.5) dentro de la función que propongan en este literal
+
+```{r función estandarización}
+
+  funcion_norm_estan <- function(lista_edad){
+    
+    media <- mean(lista_edad)
+    des_est <- sd(lista_edad)
+
+    
+    dist_estandar <- c()
+    
+    for (i in 1:50){
+    
+    dist_estandar[i] <- (lista_edad[i]-media)/des_est
+    
+    }
+    
+    print(dist_estandar)
+   
+    
+  }
+
+dist_estandar <- funcion_norm_estan(l_edad[[1]])
+
+
+```
+###1.7)	Por otra parte, generen una lista de listas llamada outcomes_nominales. Esta lista contendrá 3 vectores de 50 observaciones cada uno con los outcomes de interés: salario, índice de salud, experiencia laboral. Para esto, generen para cada vector valores numéricos de clase float basado en una distribución normal estándar con media 0 y varianza 1. 
+
+```{r lista outcomes_nominales}
+
+salario <- rnorm(50,0,1)
+ind_salud <- rnorm(50,0,1)
+exp_laboral <- rnorm(50,0,1)
+
+outcomes_nominales <- list(salario,ind_salud,exp_laboral)
+
+
+```
+### 1.8)	Creen una función que transforme una lista en una matriz. Para esto, la función debe tomar como input una lista y debe tener como output una matriz X que concatene los datos de esta lista y un vector de 1´s.
+
+```{r lista a matriz}
+  
+  funcion_lista_matriz <- function(lista){
+    
+    vector_unos <- rep(1,length(lista[[1]]))
+    matriz <- cbind(lista,vector_unos)
+    
+    print(matriz)
+    
+  }
+
+  funcion_lista_matriz(l_edad[[1]])
+
+```
+###1.9)	A partir de la función anterior consoliden una matriz X con la edad de los individuos estandarizada y un vector de 1´s asociado a una constante.
+

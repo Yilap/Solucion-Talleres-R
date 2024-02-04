@@ -387,11 +387,11 @@ repita el carácter “Años” y una lista con nombres propios aleatorios de
 personas, todas las cuatro (4) listas deben tener el mismo tamaño.</h3>
 <pre class="r"><code>rm(list=ls())   # borramos environment
 l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
-l_edad = list(edad= runif(50,5,50)) # Creamos la lista de edades con una distribución uniforme entre 5 y 50
+l_edad = list(edad= signif(runif(50,5,50),1)) # Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep(&quot;años&quot;,50)) # Creamos una lista con la palabra &quot;años&quot; repetida 50 veces
 
 
-# Para la lista de nombres vamos a crear 2 vectores, uno con nombres y otro con apellidos tomados de los nombres y apellidos de los integrantes del curso; luego usaremos la función sample para tomar de los vectores elementos aleatorios, finalmente uniremos los nombres y apellidos aleatorios para formar la lista. Fuente: https://r-coder.com/funcion-sample-r/
+# Para la lista de nombres vamos a crear dos vectores, uno con los nombres y otro con los apellidos de los integrantes del curso; luego usaremos la función sample para tomar de los vectores elementos aleatorios; finalmente, uniremos los nombres y apellidos aleatorios para formar la lista. Fuente: https://r-coder.com/funcion-sample-r/
 
 rapellidos &lt;- c(&quot;Aguirre&quot;, &quot;Arteaga&quot;, &quot;Borda&quot;, &quot;Caballero&quot;, &quot;Carbonell&quot;, &quot;Carvajal&quot;, &quot;Criollo&quot;, &quot;Diaz&quot;, &quot;Duquino&quot;, &quot;Escobar&quot;, &quot;Fernandez&quot;, &quot;Fonseca&quot;, &quot;Galindo&quot;, &quot;Gonzalez&quot;, &quot;Hernandez&quot;, &quot;Huertas&quot;, &quot;Karaman&quot;, &quot;Lasso&quot;, &quot;Naranjo&quot;, &quot;Navarrete&quot;, &quot;Navarro&quot;, &quot;Neusa&quot;, &quot;Osorno&quot;, &quot;Palacios&quot;, &quot;Patiño&quot;, &quot;Perdomo&quot;, &quot;Prada&quot;, &quot;Rueda&quot;, &quot;Villamizar&quot;, &quot;Viveros&quot;, &quot;Zuluaga&quot;, &quot;Valencia&quot;, &quot;Gomez&quot;, &quot;Bejarano&quot;, &quot;Silva&quot;, &quot;Ortega&quot;, &quot;Huerfano&quot;, &quot;Cardenas&quot;, &quot;Barreto&quot;, &quot;Carreño&quot;, &quot;Rocha&quot;, &quot;Correa&quot;, &quot;Jimenez&quot;, &quot;Barragan&quot;, &quot;Rincon&quot;, &quot;Ramirez&quot;, &quot;Charry&quot;, &quot;Munoz&quot;, &quot;Pedreros&quot;, &quot;Lian&quot;, &quot;Jaramillo&quot;, &quot;DeZulategi&quot;, &quot;Amaya&quot;, &quot;Corredor&quot;, &quot;Ortiz&quot;, &quot;Rodriguez&quot;, &quot;Martinez&quot;, &quot;Olmos&quot;, &quot;Echeverri&quot;, &quot;Arias&quot;, &quot;Moreno&quot;, &quot;Rojas&quot;, &quot;Aguilar&quot;, &quot;Cuellar&quot;, &quot;Guacheta&quot;, &quot;Vargas&quot;, &quot;Muaoz&quot;, &quot;DelCastillo&quot;)
 
@@ -409,44 +409,82 @@ de los elementos j de las tres listas creadas en el punto anterior.
 Ordenen y/o agreguen caracteres a cada elemento de la lista para que se
 consolide una oración con orden semántico que refleje la edad del
 individuo.</h3>
-<pre class="r"><code>l_oracion = list(c(l_nombres$nom_apellido, &quot; tiene &quot;, l_edad$edad, &quot; &quot;, l_texto$variable))
+<pre class="r"><code>l_oracion &lt;- c()
+
+for (i in 1:length(l_nombres[[1]])){
+  
+  l_oracion[[1]][i] &lt;- paste(l_nombres[[1]][i],&quot;tiene&quot;,l_edad[[1]][i],
+                          l_texto[[1]][i])    
+  
+}
 
 l_oracion</code></pre>
 <pre><code>## [[1]]
-##   [1] &quot; tiene &quot;          &quot;6.25099123222753&quot; &quot;49.0182211750653&quot;
-##   [4] &quot;28.9853898342699&quot; &quot;40.3195061301813&quot; &quot;37.7166182396468&quot;
-##   [7] &quot;10.811905041337&quot;  &quot;5.35683618392795&quot; &quot;21.8537070846651&quot;
-##  [10] &quot;28.645196139114&quot;  &quot;16.1460203852039&quot; &quot;30.9751775709447&quot;
-##  [13] &quot;36.2589186721016&quot; &quot;35.4808319022413&quot; &quot;24.0595555061009&quot;
-##  [16] &quot;37.5798317196313&quot; &quot;31.6641245607752&quot; &quot;49.3668386724312&quot;
-##  [19] &quot;35.6898172863293&quot; &quot;8.60914275282994&quot; &quot;38.4931093989871&quot;
-##  [22] &quot;30.0390907737892&quot; &quot;27.3904161609244&quot; &quot;10.1031234511174&quot;
-##  [25] &quot;35.1273933332413&quot; &quot;20.6269648554735&quot; &quot;23.5711756721139&quot;
-##  [28] &quot;15.0565555936191&quot; &quot;30.9018428856507&quot; &quot;45.9838717698585&quot;
-##  [31] &quot;45.546460832702&quot;  &quot;46.7541411472484&quot; &quot;21.0952560859732&quot;
-##  [34] &quot;40.2296249289066&quot; &quot;26.6985065350309&quot; &quot;26.4602799282875&quot;
-##  [37] &quot;38.1669356208295&quot; &quot;7.68419132451527&quot; &quot;14.4330674852245&quot;
-##  [40] &quot;20.7674298051279&quot; &quot;18.5891951969825&quot; &quot;22.157682859106&quot; 
-##  [43] &quot;23.5983323468827&quot; &quot;20.7290078839287&quot; &quot;32.757876109099&quot; 
-##  [46] &quot;9.90612321416847&quot; &quot;29.9130434414838&quot; &quot;38.6154279473703&quot;
-##  [49] &quot;47.6956016453914&quot; &quot;8.24085963424295&quot; &quot;29.2603725742083&quot;
-##  [52] &quot; &quot;                &quot;años&quot;             &quot;años&quot;            
-##  [55] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [58] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [61] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [64] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [67] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [70] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [73] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [76] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [79] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [82] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [85] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [88] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [91] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [94] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-##  [97] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
-## [100] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;</code></pre>
+##  [1] &quot;Camila Rincon tiene 6 años&quot;         &quot;Laura Aguilar tiene 50 años&quot;       
+##  [3] &quot;Alejandro Viveros tiene 30 años&quot;    &quot;Daniel Muaoz tiene 40 años&quot;        
+##  [5] &quot;Dennis Patiño tiene 40 años&quot;        &quot;Valentina  Patiño tiene 10 años&quot;   
+##  [7] &quot;Andres Guacheta tiene 5 años&quot;       &quot;Maria Arias tiene 20 años&quot;         
+##  [9] &quot;Dennis Barreto tiene 30 años&quot;       &quot;Romina Navarrete tiene 20 años&quot;    
+## [11] &quot;Diana Silva tiene 30 años&quot;          &quot;Valentina  Rodriguez tiene 40 años&quot;
+## [13] &quot;Andres Palacios tiene 40 años&quot;      &quot;Camilo Martinez tiene 20 años&quot;     
+## [15] &quot;Juliana Arteaga tiene 40 años&quot;      &quot;Olegario Cardenas tiene 30 años&quot;   
+## [17] &quot;Manuela Charry tiene 50 años&quot;       &quot;Juliana DeZulategi tiene 40 años&quot;  
+## [19] &quot;Olegario Cuellar tiene 9 años&quot;      &quot;Juanita Arteaga tiene 40 años&quot;     
+## [21] &quot;Alejandro Neusa tiene 30 años&quot;      &quot;David Diaz tiene 30 años&quot;          
+## [23] &quot;Camila Jimenez tiene 10 años&quot;       &quot;Juanita Huertas tiene 40 años&quot;     
+## [25] &quot;Juanita Diaz tiene 20 años&quot;         &quot;Diana Arias tiene 20 años&quot;         
+## [27] &quot;Angela Galindo tiene 20 años&quot;       &quot;Raul Valencia tiene 30 años&quot;       
+## [29] &quot;Carolina  Valencia tiene 50 años&quot;   &quot;Maria Villamizar tiene 50 años&quot;    
+## [31] &quot;Alejandro Charry tiene 50 años&quot;     &quot;Camila Guacheta tiene 20 años&quot;     
+## [33] &quot;Pharad Echeverri tiene 40 años&quot;     &quot;Nicolas Echeverri tiene 30 años&quot;   
+## [35] &quot;Yilmer Diaz tiene 30 años&quot;          &quot;Edinson Munoz tiene 40 años&quot;       
+## [37] &quot;Jose Rojas tiene 8 años&quot;            &quot;Salomon Jaramillo tiene 10 años&quot;   
+## [39] &quot;Paula Echeverri tiene 20 años&quot;      &quot;Alexander Rojas tiene 20 años&quot;     
+## [41] &quot;Laura Neusa tiene 20 años&quot;          &quot;Juliana Galindo tiene 20 años&quot;     
+## [43] &quot;Manuela Corredor tiene 20 años&quot;     &quot;Felipe Aguilar tiene 30 años&quot;      
+## [45] &quot;Paula Martinez tiene 10 años&quot;       &quot;Raul Caballero tiene 30 años&quot;      
+## [47] &quot;German  Munoz tiene 40 años&quot;        &quot;Valentina  Carbonell tiene 50 años&quot;
+## [49] &quot;Silvia Galindo tiene 8 años&quot;        &quot;David Martinez tiene 30 años&quot;</code></pre>
+</div>
+<div id="usando-un-loop-realicen-un-código-que-presente-print-la-edad-de-cada-uno-de-los-individuos-dentro-de-las-listas-pero-únicamente-si-el-nombre-del-individuo-empieza-por-una-letra-distinta-de-j-y-la-edad-sea-distinta-de-un-número-par." class="section level3">
+<h3>1.4) Usando un loop realicen un código que presente (print) la edad
+de cada uno de los individuos dentro de las listas, pero únicamente si
+el nombre del individuo empieza por una letra distinta de J y la edad
+sea distinta de un número par.</h3>
+<pre class="r"><code>for (j in 1:length(l_oracion[[1]])){
+  
+  
+  if(substring(l_oracion[[1]][j],1,1)==&quot;J&quot;){
+    
+    if(l_edad[[1]][j]%%2&gt;0){
+      
+      print(l_oracion[[1]][j])
+      
+    }
+    
+  }
+  
+
+}</code></pre>
+</div>
+<div id="programen-una-función-que-tome-como-entrada-una-lista-con-valores-numéricos-y-que-su-output-sea-el-promedio-de-los-valores-de-la-lista-y-la-desviación-estándar-asociada-a-la-misma-muestra.-usando-esta-función-respondan-cuál-es-la-edad-promedio-de-su-lista-cuál-es-la-desviación-estándar" class="section level3">
+<h3>1.5) Programen una función que tome como entrada una lista con
+valores numéricos y que su output sea el promedio de los valores de la
+lista y la desviación estándar asociada a la misma muestra. Usando esta
+función respondan: ¿Cuál es la edad promedio de su lista? ¿Cuál es la
+desviación estándar?</h3>
+<pre class="r"><code>  funcion_param_stat &lt;- function(lista_edad){
+    
+    media &lt;- mean(lista_edad)
+    des_est &lt;- sd(lista_edad)
+    print(paste(&quot;El promedio es&quot;,media))
+    print(paste(&quot;La desviación estándar es&quot;,signif(des_est,4)))
+    
+  }
+
+funcion_param_stat(l_edad[[1]])</code></pre>
+<pre><code>## [1] &quot;El promedio es 28.32&quot;
+## [1] &quot;La desviación estándar es 13.38&quot;</code></pre>
 </div>
 </div>
 
