@@ -167,3 +167,8 @@ outcomes_nominales <- list(salario,ind_salud,exp_laboral)
 ```
 ###1.9)	A partir de la función anterior consoliden una matriz X con la edad de los individuos estandarizada y un vector de 1´s asociado a una constante.
 
+```{r matriz edad estandarizada}
+
+vect_edad_estandar <- funcion_norm_estan(l_edad[[1]])
+matriz_edad_estandar <- funcion_lista_matriz(vect_edad_estandar)
+```
