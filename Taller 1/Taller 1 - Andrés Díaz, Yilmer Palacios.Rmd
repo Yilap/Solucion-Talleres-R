@@ -69,4 +69,26 @@ for (i in 1:length(l_nombres[[1]])){
 l_oracion
 
 ```
+### 1.4)	Usando un loop realicen un código que presente (print) la edad de cada uno de los individuos dentro de las listas, pero únicamente si el nombre del individuo empieza por una letra distinta de J y la edad sea distinta de un número par.
 
+```{r loop selección de J}
+
+
+for (j in 1:length(l_oracion[[1]])){
+  
+  
+  if(substring(l_oracion[[1]][j],1,1)=="J"){
+    
+    if(l_edad[[1]][j]%%2>0){
+      
+      print(l_oracion[[1]][j])
+      
+    }
+    
+  }
+  
+
+}
+
+
+```
