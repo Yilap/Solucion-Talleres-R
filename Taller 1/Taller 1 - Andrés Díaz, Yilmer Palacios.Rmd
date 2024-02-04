@@ -16,11 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### 1.1) Definan una semilla para trabajar durante el script. Respondan: ¿Por qué es importante definir una semilla?
 
-Respuesta: Según R-Coder.com, una semilla se usa para iniciar un generador de números pseudoaleatorios, estos últimos se usan para generar al azar números que usaremos en nuestras muestras y códigos, sin embargo, la generación es pseudoaleatoria porque sí se usa una misma semilla, los números generados siempre van a ser los mismos.
+Respuesta: Según R-Coder.com, la definición de una semilla es la inicialización de un generador de números pseudoaleatorios, que son utilizados para la simulación de distribuciones aleatorias que sean requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos números generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla. 
 
-Es importante definir una semilla en un código porque podemos hacer replicable nuestro código para un tercero, si no se define una semilla, alguien diferente al creador del código podría obtener diferentes resultados en un código que utiliza una generación aleatoria para su ejecución.
+Es importante definir una semilla en un algoritmo que vaya a utilizar un generador de números con distribuciones probabilísticas ya que permite que otras personas puedan llegar al mismo resultado con el algoritmo y los datos utilizados. Si no se definiera, los resultados cambiarían cada vez que se ejecutara el código, dada la naturaleza de la información que se está utilizando.
 
-Vamos a definir nuestra semilla usando el día y mes de inicio del desarrollo del taller
+Para este ejercicio, se definirá la semilla usando la fecha en la que se comenzó a trabajar en este taller.
 
 ```{r semilla}
 
