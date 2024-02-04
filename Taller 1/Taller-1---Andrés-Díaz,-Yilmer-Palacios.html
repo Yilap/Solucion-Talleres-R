@@ -362,18 +362,20 @@ display: none;
 <div id="definan-una-semilla-para-trabajar-durante-el-script.-respondan-por-qué-es-importante-definir-una-semilla" class="section level3">
 <h3>1.1) Definan una semilla para trabajar durante el script. Respondan:
 ¿Por qué es importante definir una semilla?</h3>
-<p>Respuesta: Según R-Coder.com, una semilla se usa para iniciar un
-generador de números pseudoaleatorios, estos últimos se usan para
-generar al azar números que usaremos en nuestras muestras y códigos, sin
-embargo, la generación es pseudoaleatoria porque sí se usa una misma
-semilla, los números generados siempre van a ser los mismos.</p>
-<p>Es importante definir una semilla en un código porque podemos hacer
-replicable nuestro código para un tercero, si no se define una semilla,
-alguien diferente al creador del código podría obtener diferentes
-resultados en un código que utiliza una generación aleatoria para su
-ejecución.</p>
-<p>Vamos a definir nuestra semilla usando el día y mes de inicio del
-desarrollo del taller</p>
+<p>Respuesta: Según R-Coder.com, la definición de una semilla es la
+inicialización de un generador de números pseudoaleatorios, que son
+utilizados para la simulación de distribuciones de probabilidad que sean
+requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados
+obtenidos a partir de estos números generados son replicables siempre y
+cuando se utilice el mismo generador y la misma semilla.</p>
+<p>Es importante definir una semilla en un algoritmo que vaya a utilizar
+un generador de números con distribuciones de probabilidad ya que
+permite que otras personas puedan llegar al mismo resultado con el
+algoritmo y los datos utilizados. Si no se definiera, los resultados
+cambiarían cada vez que se ejecutara el código, dada la naturaleza de
+los datos que se está utilizando.</p>
+<p>Para este ejercicio, se definirá la semilla usando la fecha en la que
+se comenzó a trabajar en este taller.</p>
 <pre class="r"><code>set.seed(31012024)</code></pre>
 </div>
 <div id="primero-creen-una-lista-con-números-secuenciales-de-1-en-1-desde-el-1-hasta-el-50.-luego-creen-tres-3-listas-diferentes-que-contengan-respectivamente-una-variable-numérica-de-clase-int-que-se-distribuya-de-forma-uniforme-entre-el-intervalo-5-a-50-una-lista-que-repita-el-carácter-años-y-una-lista-con-nombres-propios-aleatorios-de-personas-todas-las-cuatro-4-listas-deben-tener-el-mismo-tamaño." class="section level3">
@@ -387,6 +389,7 @@ personas, todas las cuatro (4) listas deben tener el mismo tamaño.</h3>
 l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
 l_edad = list(edad= runif(50,5,50)) # Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep(&quot;años&quot;,50)) # Creamos una lista con la palabra &quot;años&quot; repetida 50 veces
+
 
 # Para la lista de nombres vamos a crear 2 vectores, uno con nombres y otro con apellidos tomados de los nombres y apellidos de los integrantes del curso; luego usaremos la función sample para tomar de los vectores elementos aleatorios, finalmente uniremos los nombres y apellidos aleatorios para formar la lista. Fuente: https://r-coder.com/funcion-sample-r/
 
@@ -406,6 +409,44 @@ de los elementos j de las tres listas creadas en el punto anterior.
 Ordenen y/o agreguen caracteres a cada elemento de la lista para que se
 consolide una oración con orden semántico que refleje la edad del
 individuo.</h3>
+<pre class="r"><code>l_oracion = list(c(l_nombres$nom_apellido, &quot; tiene &quot;, l_edad$edad, &quot; &quot;, l_texto$variable))
+
+l_oracion</code></pre>
+<pre><code>## [[1]]
+##   [1] &quot; tiene &quot;          &quot;6.25099123222753&quot; &quot;49.0182211750653&quot;
+##   [4] &quot;28.9853898342699&quot; &quot;40.3195061301813&quot; &quot;37.7166182396468&quot;
+##   [7] &quot;10.811905041337&quot;  &quot;5.35683618392795&quot; &quot;21.8537070846651&quot;
+##  [10] &quot;28.645196139114&quot;  &quot;16.1460203852039&quot; &quot;30.9751775709447&quot;
+##  [13] &quot;36.2589186721016&quot; &quot;35.4808319022413&quot; &quot;24.0595555061009&quot;
+##  [16] &quot;37.5798317196313&quot; &quot;31.6641245607752&quot; &quot;49.3668386724312&quot;
+##  [19] &quot;35.6898172863293&quot; &quot;8.60914275282994&quot; &quot;38.4931093989871&quot;
+##  [22] &quot;30.0390907737892&quot; &quot;27.3904161609244&quot; &quot;10.1031234511174&quot;
+##  [25] &quot;35.1273933332413&quot; &quot;20.6269648554735&quot; &quot;23.5711756721139&quot;
+##  [28] &quot;15.0565555936191&quot; &quot;30.9018428856507&quot; &quot;45.9838717698585&quot;
+##  [31] &quot;45.546460832702&quot;  &quot;46.7541411472484&quot; &quot;21.0952560859732&quot;
+##  [34] &quot;40.2296249289066&quot; &quot;26.6985065350309&quot; &quot;26.4602799282875&quot;
+##  [37] &quot;38.1669356208295&quot; &quot;7.68419132451527&quot; &quot;14.4330674852245&quot;
+##  [40] &quot;20.7674298051279&quot; &quot;18.5891951969825&quot; &quot;22.157682859106&quot; 
+##  [43] &quot;23.5983323468827&quot; &quot;20.7290078839287&quot; &quot;32.757876109099&quot; 
+##  [46] &quot;9.90612321416847&quot; &quot;29.9130434414838&quot; &quot;38.6154279473703&quot;
+##  [49] &quot;47.6956016453914&quot; &quot;8.24085963424295&quot; &quot;29.2603725742083&quot;
+##  [52] &quot; &quot;                &quot;años&quot;             &quot;años&quot;            
+##  [55] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [58] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [61] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [64] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [67] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [70] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [73] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [76] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [79] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [82] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [85] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [88] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [91] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [94] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+##  [97] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;            
+## [100] &quot;años&quot;             &quot;años&quot;             &quot;años&quot;</code></pre>
 </div>
 </div>
 
