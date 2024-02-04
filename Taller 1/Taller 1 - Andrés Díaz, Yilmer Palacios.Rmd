@@ -123,7 +123,7 @@ funcion_param_stat(l_edad[[1]])
     
     dist_estandar <- c()
     
-    for (i in 1:50){
+    for (i in 1:length(lista_edad)){
     
     dist_estandar[i] <- (lista_edad[i]-media)/des_est
     
@@ -138,7 +138,7 @@ dist_estandar <- funcion_norm_estan(l_edad[[1]])
 
 
 ```
-###1.7)	Por otra parte, generen una lista de listas llamada outcomes_nominales. Esta lista contendrá 3 vectores de 50 observaciones cada uno con los outcomes de interés: salario, índice de salud, experiencia laboral. Para esto, generen para cada vector valores numéricos de clase float basado en una distribución normal estándar con media 0 y varianza 1. 
+### 1.7)	Por otra parte, generen una lista de listas llamada outcomes_nominales. Esta lista contendrá 3 vectores de 50 observaciones cada uno con los outcomes de interés: salario, índice de salud, experiencia laboral. Para esto, generen para cada vector valores numéricos de clase float basado en una distribución normal estándar con media 0 y varianza 1. 
 
 ```{r lista outcomes_nominales}
 
@@ -166,7 +166,7 @@ outcomes_nominales <- list(salario,ind_salud,exp_laboral)
   funcion_lista_matriz(l_edad[[1]])
 
 ```
-###1.9)	A partir de la función anterior consoliden una matriz X con la edad de los individuos estandarizada y un vector de 1´s asociado a una constante.
+### 1.9)	A partir de la función anterior consoliden una matriz X con la edad de los individuos estandarizada y un vector de 1´s asociado a una constante.
 
 ```{r matriz edad estandarizada}
 

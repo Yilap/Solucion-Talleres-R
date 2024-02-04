@@ -387,7 +387,7 @@ repita el carácter “Años” y una lista con nombres propios aleatorios de
 personas, todas las cuatro (4) listas deben tener el mismo tamaño.</h3>
 <pre class="r"><code>rm(list=ls())   # borramos environment
 l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
-l_edad = list(edad= signif(runif(50,5,50),1)) # Creamos la lista de edades con una distribución uniforme entre 5 y 50
+l_edad = list(edad= signif(round(runif(50,5,50),1),1))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep(&quot;años&quot;,50)) # Creamos una lista con la palabra &quot;años&quot; repetida 50 veces
 
 
@@ -395,7 +395,7 @@ l_texto = list(variable=rep(&quot;años&quot;,50)) # Creamos una lista con la pa
 
 rapellidos &lt;- c(&quot;Aguirre&quot;, &quot;Arteaga&quot;, &quot;Borda&quot;, &quot;Caballero&quot;, &quot;Carbonell&quot;, &quot;Carvajal&quot;, &quot;Criollo&quot;, &quot;Diaz&quot;, &quot;Duquino&quot;, &quot;Escobar&quot;, &quot;Fernandez&quot;, &quot;Fonseca&quot;, &quot;Galindo&quot;, &quot;Gonzalez&quot;, &quot;Hernandez&quot;, &quot;Huertas&quot;, &quot;Karaman&quot;, &quot;Lasso&quot;, &quot;Naranjo&quot;, &quot;Navarrete&quot;, &quot;Navarro&quot;, &quot;Neusa&quot;, &quot;Osorno&quot;, &quot;Palacios&quot;, &quot;Patiño&quot;, &quot;Perdomo&quot;, &quot;Prada&quot;, &quot;Rueda&quot;, &quot;Villamizar&quot;, &quot;Viveros&quot;, &quot;Zuluaga&quot;, &quot;Valencia&quot;, &quot;Gomez&quot;, &quot;Bejarano&quot;, &quot;Silva&quot;, &quot;Ortega&quot;, &quot;Huerfano&quot;, &quot;Cardenas&quot;, &quot;Barreto&quot;, &quot;Carreño&quot;, &quot;Rocha&quot;, &quot;Correa&quot;, &quot;Jimenez&quot;, &quot;Barragan&quot;, &quot;Rincon&quot;, &quot;Ramirez&quot;, &quot;Charry&quot;, &quot;Munoz&quot;, &quot;Pedreros&quot;, &quot;Lian&quot;, &quot;Jaramillo&quot;, &quot;DeZulategi&quot;, &quot;Amaya&quot;, &quot;Corredor&quot;, &quot;Ortiz&quot;, &quot;Rodriguez&quot;, &quot;Martinez&quot;, &quot;Olmos&quot;, &quot;Echeverri&quot;, &quot;Arias&quot;, &quot;Moreno&quot;, &quot;Rojas&quot;, &quot;Aguilar&quot;, &quot;Cuellar&quot;, &quot;Guacheta&quot;, &quot;Vargas&quot;, &quot;Muaoz&quot;, &quot;DelCastillo&quot;)
 
-rnombres &lt;- c(&quot;Dennis&quot;, &quot;Diana&quot;, &quot;Luis&quot;, &quot;Alejandra&quot;, &quot;Henry&quot;, &quot;Pharad&quot;, &quot;Andres&quot;, &quot;Edinson&quot;, &quot;Yuri&quot;, &quot;Jose&quot;, &quot;Laura&quot;, &quot;German &quot;, &quot;Valentina &quot;, &quot;Daniel&quot;, &quot;Samuel&quot;, &quot;Manuela&quot;, &quot;Manuel&quot;, &quot;Angella&quot;, &quot;Yilmer&quot;, &quot;Raul&quot;, &quot;Gabriel&quot;, &quot;Angela&quot;, &quot;Camilo&quot;, &quot;Santiago &quot;, &quot;Julian&quot;, &quot;Juanita&quot;, &quot;Juan&quot;, &quot;Silvia&quot;, &quot;Francisco&quot;, &quot;Estefania&quot;, &quot;Johana&quot;, &quot;Carolina &quot;, &quot;Olegario&quot;, &quot;Valentina&quot;, &quot;Nicolas&quot;, &quot;Fernando&quot;, &quot;Alejandro&quot;, &quot;Romina&quot;, &quot;Camila&quot;, &quot;Salomon&quot;, &quot;Sofia&quot;, &quot;Felipe &quot;, &quot;Enrique&quot;, &quot;Katherine&quot;, &quot;Sebastian&quot;, &quot;Alexis &quot;, &quot;Maria&quot;, &quot;Alexander&quot;, &quot;David&quot;, &quot;Paula&quot;, &quot;Felipe&quot;, &quot;Juliana&quot;)
+rnombres &lt;- c(&quot;Dennis&quot;, &quot;Diana&quot;, &quot;Luis&quot;, &quot;Alejandra&quot;, &quot;Henry&quot;, &quot;Pharad&quot;, &quot;Andres&quot;, &quot;Edinson&quot;, &quot;Yuri&quot;, &quot;Jose&quot;, &quot;Laura&quot;, &quot;German&quot;, &quot;Valentina&quot;, &quot;Daniel&quot;, &quot;Samuel&quot;, &quot;Manuela&quot;, &quot;Manuel&quot;, &quot;Angella&quot;, &quot;Yilmer&quot;, &quot;Raul&quot;, &quot;Gabriel&quot;, &quot;Angela&quot;, &quot;Camilo&quot;, &quot;Santiago&quot;, &quot;Julian&quot;, &quot;Juanita&quot;, &quot;Juan&quot;, &quot;Silvia&quot;, &quot;Francisco&quot;, &quot;Estefania&quot;, &quot;Johana&quot;, &quot;Carolina&quot;, &quot;Olegario&quot;, &quot;Valentina&quot;, &quot;Nicolas&quot;, &quot;Fernando&quot;, &quot;Alejandro&quot;, &quot;Romina&quot;, &quot;Camila&quot;, &quot;Salomon&quot;, &quot;Sofia&quot;, &quot;Felipe&quot;, &quot;Enrique&quot;, &quot;Katherine&quot;, &quot;Sebastian&quot;, &quot;Alexis&quot;, &quot;Maria&quot;, &quot;Alexander&quot;, &quot;David&quot;, &quot;Paula&quot;, &quot;Felipe&quot;, &quot;Juliana&quot;)
 
 nom_apellido &lt;- c(paste(sample(rnombres,50, replace=TRUE), sample(rapellidos,50, replace=TRUE)))
 
@@ -420,31 +420,31 @@ for (i in 1:length(l_nombres[[1]])){
 
 l_oracion</code></pre>
 <pre><code>## [[1]]
-##  [1] &quot;Camila Rincon tiene 6 años&quot;         &quot;Laura Aguilar tiene 50 años&quot;       
-##  [3] &quot;Alejandro Viveros tiene 30 años&quot;    &quot;Daniel Muaoz tiene 40 años&quot;        
-##  [5] &quot;Dennis Patiño tiene 40 años&quot;        &quot;Valentina  Patiño tiene 10 años&quot;   
-##  [7] &quot;Andres Guacheta tiene 5 años&quot;       &quot;Maria Arias tiene 20 años&quot;         
-##  [9] &quot;Dennis Barreto tiene 30 años&quot;       &quot;Romina Navarrete tiene 20 años&quot;    
-## [11] &quot;Diana Silva tiene 30 años&quot;          &quot;Valentina  Rodriguez tiene 40 años&quot;
-## [13] &quot;Andres Palacios tiene 40 años&quot;      &quot;Camilo Martinez tiene 20 años&quot;     
-## [15] &quot;Juliana Arteaga tiene 40 años&quot;      &quot;Olegario Cardenas tiene 30 años&quot;   
-## [17] &quot;Manuela Charry tiene 50 años&quot;       &quot;Juliana DeZulategi tiene 40 años&quot;  
-## [19] &quot;Olegario Cuellar tiene 9 años&quot;      &quot;Juanita Arteaga tiene 40 años&quot;     
-## [21] &quot;Alejandro Neusa tiene 30 años&quot;      &quot;David Diaz tiene 30 años&quot;          
-## [23] &quot;Camila Jimenez tiene 10 años&quot;       &quot;Juanita Huertas tiene 40 años&quot;     
-## [25] &quot;Juanita Diaz tiene 20 años&quot;         &quot;Diana Arias tiene 20 años&quot;         
-## [27] &quot;Angela Galindo tiene 20 años&quot;       &quot;Raul Valencia tiene 30 años&quot;       
-## [29] &quot;Carolina  Valencia tiene 50 años&quot;   &quot;Maria Villamizar tiene 50 años&quot;    
-## [31] &quot;Alejandro Charry tiene 50 años&quot;     &quot;Camila Guacheta tiene 20 años&quot;     
-## [33] &quot;Pharad Echeverri tiene 40 años&quot;     &quot;Nicolas Echeverri tiene 30 años&quot;   
-## [35] &quot;Yilmer Diaz tiene 30 años&quot;          &quot;Edinson Munoz tiene 40 años&quot;       
-## [37] &quot;Jose Rojas tiene 8 años&quot;            &quot;Salomon Jaramillo tiene 10 años&quot;   
-## [39] &quot;Paula Echeverri tiene 20 años&quot;      &quot;Alexander Rojas tiene 20 años&quot;     
-## [41] &quot;Laura Neusa tiene 20 años&quot;          &quot;Juliana Galindo tiene 20 años&quot;     
-## [43] &quot;Manuela Corredor tiene 20 años&quot;     &quot;Felipe Aguilar tiene 30 años&quot;      
-## [45] &quot;Paula Martinez tiene 10 años&quot;       &quot;Raul Caballero tiene 30 años&quot;      
-## [47] &quot;German  Munoz tiene 40 años&quot;        &quot;Valentina  Carbonell tiene 50 años&quot;
-## [49] &quot;Silvia Galindo tiene 8 años&quot;        &quot;David Martinez tiene 30 años&quot;</code></pre>
+##  [1] &quot;Camila Rincon tiene 6 años&quot;        &quot;Laura Aguilar tiene 50 años&quot;      
+##  [3] &quot;Alejandro Viveros tiene 30 años&quot;   &quot;Daniel Muaoz tiene 40 años&quot;       
+##  [5] &quot;Dennis Patiño tiene 40 años&quot;       &quot;Valentina Patiño tiene 10 años&quot;   
+##  [7] &quot;Andres Guacheta tiene 5 años&quot;      &quot;Maria Arias tiene 20 años&quot;        
+##  [9] &quot;Dennis Barreto tiene 30 años&quot;      &quot;Romina Navarrete tiene 20 años&quot;   
+## [11] &quot;Diana Silva tiene 30 años&quot;         &quot;Valentina Rodriguez tiene 40 años&quot;
+## [13] &quot;Andres Palacios tiene 40 años&quot;     &quot;Camilo Martinez tiene 20 años&quot;    
+## [15] &quot;Juliana Arteaga tiene 40 años&quot;     &quot;Olegario Cardenas tiene 30 años&quot;  
+## [17] &quot;Manuela Charry tiene 50 años&quot;      &quot;Juliana DeZulategi tiene 40 años&quot; 
+## [19] &quot;Olegario Cuellar tiene 9 años&quot;     &quot;Juanita Arteaga tiene 40 años&quot;    
+## [21] &quot;Alejandro Neusa tiene 30 años&quot;     &quot;David Diaz tiene 30 años&quot;         
+## [23] &quot;Camila Jimenez tiene 10 años&quot;      &quot;Juanita Huertas tiene 40 años&quot;    
+## [25] &quot;Juanita Diaz tiene 20 años&quot;        &quot;Diana Arias tiene 20 años&quot;        
+## [27] &quot;Angela Galindo tiene 20 años&quot;      &quot;Raul Valencia tiene 30 años&quot;      
+## [29] &quot;Carolina Valencia tiene 50 años&quot;   &quot;Maria Villamizar tiene 50 años&quot;   
+## [31] &quot;Alejandro Charry tiene 50 años&quot;    &quot;Camila Guacheta tiene 20 años&quot;    
+## [33] &quot;Pharad Echeverri tiene 40 años&quot;    &quot;Nicolas Echeverri tiene 30 años&quot;  
+## [35] &quot;Yilmer Diaz tiene 30 años&quot;         &quot;Edinson Munoz tiene 40 años&quot;      
+## [37] &quot;Jose Rojas tiene 8 años&quot;           &quot;Salomon Jaramillo tiene 10 años&quot;  
+## [39] &quot;Paula Echeverri tiene 20 años&quot;     &quot;Alexander Rojas tiene 20 años&quot;    
+## [41] &quot;Laura Neusa tiene 20 años&quot;         &quot;Juliana Galindo tiene 20 años&quot;    
+## [43] &quot;Manuela Corredor tiene 20 años&quot;    &quot;Felipe Aguilar tiene 30 años&quot;     
+## [45] &quot;Paula Martinez tiene 10 años&quot;      &quot;Raul Caballero tiene 30 años&quot;     
+## [47] &quot;German Munoz tiene 40 años&quot;        &quot;Valentina Carbonell tiene 50 años&quot;
+## [49] &quot;Silvia Galindo tiene 8 años&quot;       &quot;David Martinez tiene 30 años&quot;</code></pre>
 </div>
 <div id="usando-un-loop-realicen-un-código-que-presente-print-la-edad-de-cada-uno-de-los-individuos-dentro-de-las-listas-pero-únicamente-si-el-nombre-del-individuo-empieza-por-una-letra-distinta-de-j-y-la-edad-sea-distinta-de-un-número-par." class="section level3">
 <h3>1.4) Usando un loop realicen un código que presente (print) la edad
@@ -477,14 +477,197 @@ desviación estándar?</h3>
     
     media &lt;- mean(lista_edad)
     des_est &lt;- sd(lista_edad)
-    print(paste(&quot;El promedio es&quot;,media))
+    print(paste(&quot;La edad promedio es&quot;,media))
     print(paste(&quot;La desviación estándar es&quot;,signif(des_est,4)))
     
   }
 
 funcion_param_stat(l_edad[[1]])</code></pre>
-<pre><code>## [1] &quot;El promedio es 28.32&quot;
+<pre><code>## [1] &quot;La edad promedio es 28.32&quot;
 ## [1] &quot;La desviación estándar es 13.38&quot;</code></pre>
+</div>
+<div id="programen-una-función-que-tome-como-entrada-una-lista-con-valores-numéricos-y-estandarice-los-valores.-es-decir-que-los-transforme-a-una-normal-estándar-los-datos.-apliquen-las-funciones-que-desarrollaron-en-el-literal-1.5-dentro-de-la-función-que-propongan-en-este-literal" class="section level3">
+<h3>1.6) Programen una función que tome como entrada una lista con
+valores numéricos y estandarice los valores. Es decir, que los
+transforme a una normal estándar los datos. Apliquen las funciones que
+desarrollaron en el literal 1.5) dentro de la función que propongan en
+este literal</h3>
+<pre class="r"><code>  funcion_norm_estan &lt;- function(lista_edad){
+    
+    media &lt;- mean(lista_edad)
+    des_est &lt;- sd(lista_edad)
+
+    
+    dist_estandar &lt;- c()
+    
+    for (i in 1:length(lista_edad)){
+    
+    dist_estandar[i] &lt;- (lista_edad[i]-media)/des_est
+    
+    }
+    
+    print(dist_estandar)
+   
+    
+  }
+
+dist_estandar &lt;- funcion_norm_estan(l_edad[[1]])</code></pre>
+<pre><code>##  [1] -1.6684768  1.6206352  0.1255843  0.8731097  0.8731097 -1.3694666
+##  [7] -1.7432293 -0.6219412  0.1255843 -0.6219412  0.1255843  0.8731097
+## [13]  0.8731097 -0.6219412  0.8731097  0.1255843  1.6206352  0.8731097
+## [19] -1.4442191  0.8731097  0.1255843  0.1255843 -1.3694666  0.8731097
+## [25] -0.6219412 -0.6219412 -0.6219412  0.1255843  1.6206352  1.6206352
+## [31]  1.6206352 -0.6219412  0.8731097  0.1255843  0.1255843  0.8731097
+## [37] -1.5189717 -1.3694666 -0.6219412 -0.6219412 -0.6219412 -0.6219412
+## [43] -0.6219412  0.1255843 -1.3694666  0.1255843  0.8731097  1.6206352
+## [49] -1.5189717  0.1255843</code></pre>
+</div>
+<div id="por-otra-parte-generen-una-lista-de-listas-llamada-outcomes_nominales.-esta-lista-contendrá-3-vectores-de-50-observaciones-cada-uno-con-los-outcomes-de-interés-salario-índice-de-salud-experiencia-laboral.-para-esto-generen-para-cada-vector-valores-numéricos-de-clase-float-basado-en-una-distribución-normal-estándar-con-media-0-y-varianza-1." class="section level3">
+<h3>1.7) Por otra parte, generen una lista de listas llamada
+outcomes_nominales. Esta lista contendrá 3 vectores de 50 observaciones
+cada uno con los outcomes de interés: salario, índice de salud,
+experiencia laboral. Para esto, generen para cada vector valores
+numéricos de clase float basado en una distribución normal estándar con
+media 0 y varianza 1.</h3>
+<pre class="r"><code>salario &lt;- rnorm(50,0,1)
+ind_salud &lt;- rnorm(50,0,1)
+exp_laboral &lt;- rnorm(50,0,1)
+
+outcomes_nominales &lt;- list(salario,ind_salud,exp_laboral)</code></pre>
+</div>
+<div id="creen-una-función-que-transforme-una-lista-en-una-matriz.-para-esto-la-función-debe-tomar-como-input-una-lista-y-debe-tener-como-output-una-matriz-x-que-concatene-los-datos-de-esta-lista-y-un-vector-de-1s." class="section level3">
+<h3>1.8) Creen una función que transforme una lista en una matriz. Para
+esto, la función debe tomar como input una lista y debe tener como
+output una matriz X que concatene los datos de esta lista y un vector de
+1´s.</h3>
+<pre class="r"><code>  funcion_lista_matriz &lt;- function(lista){
+    
+    vector_unos &lt;- rep(1,length(lista[[1]]))
+    matriz &lt;- cbind(lista,vector_unos)
+    
+    print(matriz)
+    
+  }
+
+  funcion_lista_matriz(l_edad[[1]])</code></pre>
+<pre><code>##       lista vector_unos
+##  [1,]     6           1
+##  [2,]    50           1
+##  [3,]    30           1
+##  [4,]    40           1
+##  [5,]    40           1
+##  [6,]    10           1
+##  [7,]     5           1
+##  [8,]    20           1
+##  [9,]    30           1
+## [10,]    20           1
+## [11,]    30           1
+## [12,]    40           1
+## [13,]    40           1
+## [14,]    20           1
+## [15,]    40           1
+## [16,]    30           1
+## [17,]    50           1
+## [18,]    40           1
+## [19,]     9           1
+## [20,]    40           1
+## [21,]    30           1
+## [22,]    30           1
+## [23,]    10           1
+## [24,]    40           1
+## [25,]    20           1
+## [26,]    20           1
+## [27,]    20           1
+## [28,]    30           1
+## [29,]    50           1
+## [30,]    50           1
+## [31,]    50           1
+## [32,]    20           1
+## [33,]    40           1
+## [34,]    30           1
+## [35,]    30           1
+## [36,]    40           1
+## [37,]     8           1
+## [38,]    10           1
+## [39,]    20           1
+## [40,]    20           1
+## [41,]    20           1
+## [42,]    20           1
+## [43,]    20           1
+## [44,]    30           1
+## [45,]    10           1
+## [46,]    30           1
+## [47,]    40           1
+## [48,]    50           1
+## [49,]     8           1
+## [50,]    30           1</code></pre>
+</div>
+<div id="a-partir-de-la-función-anterior-consoliden-una-matriz-x-con-la-edad-de-los-individuos-estandarizada-y-un-vector-de-1s-asociado-a-una-constante." class="section level3">
+<h3>1.9) A partir de la función anterior consoliden una matriz X con la
+edad de los individuos estandarizada y un vector de 1´s asociado a una
+constante.</h3>
+<pre class="r"><code>vect_edad_estandar &lt;- funcion_norm_estan(l_edad[[1]])</code></pre>
+<pre><code>##  [1] -1.6684768  1.6206352  0.1255843  0.8731097  0.8731097 -1.3694666
+##  [7] -1.7432293 -0.6219412  0.1255843 -0.6219412  0.1255843  0.8731097
+## [13]  0.8731097 -0.6219412  0.8731097  0.1255843  1.6206352  0.8731097
+## [19] -1.4442191  0.8731097  0.1255843  0.1255843 -1.3694666  0.8731097
+## [25] -0.6219412 -0.6219412 -0.6219412  0.1255843  1.6206352  1.6206352
+## [31]  1.6206352 -0.6219412  0.8731097  0.1255843  0.1255843  0.8731097
+## [37] -1.5189717 -1.3694666 -0.6219412 -0.6219412 -0.6219412 -0.6219412
+## [43] -0.6219412  0.1255843 -1.3694666  0.1255843  0.8731097  1.6206352
+## [49] -1.5189717  0.1255843</code></pre>
+<pre class="r"><code>matriz_edad_estandar &lt;- funcion_lista_matriz(vect_edad_estandar)</code></pre>
+<pre><code>##            lista vector_unos
+##  [1,] -1.6684768           1
+##  [2,]  1.6206352           1
+##  [3,]  0.1255843           1
+##  [4,]  0.8731097           1
+##  [5,]  0.8731097           1
+##  [6,] -1.3694666           1
+##  [7,] -1.7432293           1
+##  [8,] -0.6219412           1
+##  [9,]  0.1255843           1
+## [10,] -0.6219412           1
+## [11,]  0.1255843           1
+## [12,]  0.8731097           1
+## [13,]  0.8731097           1
+## [14,] -0.6219412           1
+## [15,]  0.8731097           1
+## [16,]  0.1255843           1
+## [17,]  1.6206352           1
+## [18,]  0.8731097           1
+## [19,] -1.4442191           1
+## [20,]  0.8731097           1
+## [21,]  0.1255843           1
+## [22,]  0.1255843           1
+## [23,] -1.3694666           1
+## [24,]  0.8731097           1
+## [25,] -0.6219412           1
+## [26,] -0.6219412           1
+## [27,] -0.6219412           1
+## [28,]  0.1255843           1
+## [29,]  1.6206352           1
+## [30,]  1.6206352           1
+## [31,]  1.6206352           1
+## [32,] -0.6219412           1
+## [33,]  0.8731097           1
+## [34,]  0.1255843           1
+## [35,]  0.1255843           1
+## [36,]  0.8731097           1
+## [37,] -1.5189717           1
+## [38,] -1.3694666           1
+## [39,] -0.6219412           1
+## [40,] -0.6219412           1
+## [41,] -0.6219412           1
+## [42,] -0.6219412           1
+## [43,] -0.6219412           1
+## [44,]  0.1255843           1
+## [45,] -1.3694666           1
+## [46,]  0.1255843           1
+## [47,]  0.8731097           1
+## [48,]  1.6206352           1
+## [49,] -1.5189717           1
+## [50,]  0.1255843           1</code></pre>
 </div>
 </div>
 
