@@ -172,4 +172,25 @@ outcomes_nominales <- list(salario,ind_salud,exp_laboral)
 
 vect_edad_estandar <- funcion_norm_estan(l_edad[[1]])
 matriz_edad_estandar <- funcion_lista_matriz(vect_edad_estandar)
+
 ```
+
+## Segundo punto
+
+### Programen una función que tome como input una matriz X estocástica de rango completo y un vector??? y???_i, posteriormente, el output debe corresponder a una estimación puntual del estimador (ß_1) de Mínimos Cuadrados Ordinarios (MCO) para la muestra y a su error estándar asociado (s_ß).
+
+```{r función MCO}
+
+funcion_MCO <- function(matriz_in,vector_in){
+  
+    beta_1 <- inv(t(matriz_in) %*% matriz_in) %*% (t(matriz_in) %*% vector_in)
+    print(beta_1)  
+  
+}
+
+```
+
+### 	Utilizando un loop, apliquen esta función a los diferentes outcomes en las listas de outcomes_nominales, guarden los coeficientes estimados y las desviaciones estándar en una matriz donde la primera columna corresponde al nombre del outcome, la segunda columna al coeficiente estimado (ß_1) y la tercera al error estándar (s_ß). En esta matriz, cada fila representará una estimación. 
+
+```{r aplicación MCO}
+
