@@ -36,7 +36,7 @@ set.seed(31012024)
 set.seed(31012024) #La ejecutamos de nuevo para que tenga efecto sobre el runif
 rm(list=ls())   # borramos environment
 l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
-l_edad = list(edad= signif(round(runif(50,5,50),0),2))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
+l_edad = list(edad= round(runif(50,5,50),0))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep("años",50)) # Creamos una lista con la palabra "años" repetida 50 veces
 
 
@@ -164,11 +164,11 @@ outcomes_nominales <- list(salario,ind_salud,exp_laboral)
     vector_unos <- rep(1,length(lista[[1]]))
     matriz <- cbind(lista,vector_unos)
     
-    print(matriz)
+    print(matriz) 
     
   }
 
-  funcion_lista_matriz(l_edad[[1]])
+ funcion_lista_matriz(l_edad[[1]])
 
 ```
 ### 1.9)	A partir de la función anterior consoliden una matriz X con la edad de los individuos estandarizada y un vector de 1´s asociado a una constante.
@@ -178,11 +178,12 @@ outcomes_nominales <- list(salario,ind_salud,exp_laboral)
 vect_edad_estandar <- funcion_norm_estan(l_edad[[1]])
 matriz_edad_estandar <- funcion_lista_matriz(vect_edad_estandar)
 
+
 ```
 
 ## Segundo punto
 
-### Programen una funci?n que tome como input una matriz X estoc?stica de rango completo y un vector??? y???_i, posteriormente, el output debe corresponder a una estimaci?n puntual del estimador (?_1) de M?nimos Cuadrados Ordinarios (MCO) para la muestra y a su error est?ndar asociado (s_?).
+### 1.9)	Programen una función que tome como input una matriz X estocástica de rango completo y un vector〖 y〗_i, posteriormente, el output debe corresponder a una estimación puntual del estimador (β_1) de Mínimos Cuadrados Ordinarios (MCO) para la muestra y a su error estándar asociado (σ_β). 
 
 ```{r funci?n MCO}
 
