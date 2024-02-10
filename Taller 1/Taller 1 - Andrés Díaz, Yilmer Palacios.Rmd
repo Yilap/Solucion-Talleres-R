@@ -33,9 +33,10 @@ set.seed(31012024)
 
 ```{r listas}
 
+set.seed(31012024) #La ejecutamos de nuevo para que tenga efecto sobre el runif
 rm(list=ls())   # borramos environment
 l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
-l_edad = list(edad= signif(round(runif(50,5,50),1),1))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
+l_edad = list(edad= signif(round(runif(50,5,50),0),2))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep("años",50)) # Creamos una lista con la palabra "años" repetida 50 veces
 
 
