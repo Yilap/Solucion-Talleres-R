@@ -362,8 +362,8 @@ display: none;
 <div id="definan-una-semilla-para-trabajar-durante-el-script.-respondan-por-qué-es-importante-definir-una-semilla" class="section level3">
 <h3>1.1) Definan una semilla para trabajar durante el script. Respondan:
 ¿Por qué es importante definir una semilla?</h3>
-<p>Respuesta: Según R-Coder.com, la definición de una semilla es la
-inicialización de un generador de números pseudoaleatorios, que son
+<p>Respuesta: Según R-Coder.com, la definición de una semilla es que es
+el iniciador de un generador de números pseudoaleatorios, que son
 utilizados para la simulación de distribuciones de probabilidad que sean
 requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados
 obtenidos a partir de estos números generados son replicables siempre y
@@ -385,9 +385,10 @@ contengan respectivamente: una variable numérica de clase int que se
 distribuya de forma uniforme entre el intervalo 5 a 50, una lista que
 repita el carácter “Años” y una lista con nombres propios aleatorios de
 personas, todas las cuatro (4) listas deben tener el mismo tamaño.</h3>
-<pre class="r"><code>rm(list=ls())   # borramos environment
+<pre class="r"><code>set.seed(31012024) #La ejecutamos de nuevo para que tenga efecto sobre el runif
+rm(list=ls())   # borramos environment
 l_num = list(numeros = seq(1,50,1)) # Creamos la lista de 1 en 1 hasta 50
-l_edad = list(edad= signif(round(runif(50,5,50),1),1))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
+l_edad = list(edad= round(runif(50,5,50),0))# Creamos la lista de edades con una distribución uniforme entre 5 y 50
 l_texto = list(variable=rep(&quot;años&quot;,50)) # Creamos una lista con la palabra &quot;años&quot; repetida 50 veces
 
 
@@ -411,6 +412,8 @@ consolide una oración con orden semántico que refleje la edad del
 individuo.</h3>
 <pre class="r"><code>l_oracion &lt;- c()
 
+#creamos un bucle que va desde 1 hasta el número de elementos (50), es cada paso del bucle se concatenarán con &quot;paste&quot; las listas y se guaradán en una posición de la lista &quot;l_oracion&quot;
+
 for (i in 1:length(l_nombres[[1]])){
   
   l_oracion[[1]][i] &lt;- paste(l_nombres[[1]][i],&quot;tiene&quot;,l_edad[[1]][i],
@@ -418,40 +421,43 @@ for (i in 1:length(l_nombres[[1]])){
   
 }
 
+
 l_oracion</code></pre>
 <pre><code>## [[1]]
-##  [1] &quot;Camila Rincon tiene 6 años&quot;        &quot;Laura Aguilar tiene 50 años&quot;      
-##  [3] &quot;Alejandro Viveros tiene 30 años&quot;   &quot;Daniel Muaoz tiene 40 años&quot;       
-##  [5] &quot;Dennis Patiño tiene 40 años&quot;       &quot;Valentina Patiño tiene 10 años&quot;   
-##  [7] &quot;Andres Guacheta tiene 5 años&quot;      &quot;Maria Arias tiene 20 años&quot;        
-##  [9] &quot;Dennis Barreto tiene 30 años&quot;      &quot;Romina Navarrete tiene 20 años&quot;   
-## [11] &quot;Diana Silva tiene 30 años&quot;         &quot;Valentina Rodriguez tiene 40 años&quot;
-## [13] &quot;Andres Palacios tiene 40 años&quot;     &quot;Camilo Martinez tiene 20 años&quot;    
-## [15] &quot;Juliana Arteaga tiene 40 años&quot;     &quot;Olegario Cardenas tiene 30 años&quot;  
-## [17] &quot;Manuela Charry tiene 50 años&quot;      &quot;Juliana DeZulategi tiene 40 años&quot; 
-## [19] &quot;Olegario Cuellar tiene 9 años&quot;     &quot;Juanita Arteaga tiene 40 años&quot;    
-## [21] &quot;Alejandro Neusa tiene 30 años&quot;     &quot;David Diaz tiene 30 años&quot;         
-## [23] &quot;Camila Jimenez tiene 10 años&quot;      &quot;Juanita Huertas tiene 40 años&quot;    
-## [25] &quot;Juanita Diaz tiene 20 años&quot;        &quot;Diana Arias tiene 20 años&quot;        
-## [27] &quot;Angela Galindo tiene 20 años&quot;      &quot;Raul Valencia tiene 30 años&quot;      
-## [29] &quot;Carolina Valencia tiene 50 años&quot;   &quot;Maria Villamizar tiene 50 años&quot;   
-## [31] &quot;Alejandro Charry tiene 50 años&quot;    &quot;Camila Guacheta tiene 20 años&quot;    
-## [33] &quot;Pharad Echeverri tiene 40 años&quot;    &quot;Nicolas Echeverri tiene 30 años&quot;  
-## [35] &quot;Yilmer Diaz tiene 30 años&quot;         &quot;Edinson Munoz tiene 40 años&quot;      
-## [37] &quot;Jose Rojas tiene 8 años&quot;           &quot;Salomon Jaramillo tiene 10 años&quot;  
-## [39] &quot;Paula Echeverri tiene 20 años&quot;     &quot;Alexander Rojas tiene 20 años&quot;    
-## [41] &quot;Laura Neusa tiene 20 años&quot;         &quot;Juliana Galindo tiene 20 años&quot;    
-## [43] &quot;Manuela Corredor tiene 20 años&quot;    &quot;Felipe Aguilar tiene 30 años&quot;     
+##  [1] &quot;Camila Rincon tiene 6 años&quot;        &quot;Laura Aguilar tiene 49 años&quot;      
+##  [3] &quot;Alejandro Viveros tiene 29 años&quot;   &quot;Daniel Muaoz tiene 40 años&quot;       
+##  [5] &quot;Dennis Patiño tiene 38 años&quot;       &quot;Valentina Patiño tiene 11 años&quot;   
+##  [7] &quot;Andres Guacheta tiene 5 años&quot;      &quot;Maria Arias tiene 22 años&quot;        
+##  [9] &quot;Dennis Barreto tiene 29 años&quot;      &quot;Romina Navarrete tiene 16 años&quot;   
+## [11] &quot;Diana Silva tiene 31 años&quot;         &quot;Valentina Rodriguez tiene 36 años&quot;
+## [13] &quot;Andres Palacios tiene 35 años&quot;     &quot;Camilo Martinez tiene 24 años&quot;    
+## [15] &quot;Juliana Arteaga tiene 38 años&quot;     &quot;Olegario Cardenas tiene 32 años&quot;  
+## [17] &quot;Manuela Charry tiene 49 años&quot;      &quot;Juliana DeZulategi tiene 36 años&quot; 
+## [19] &quot;Olegario Cuellar tiene 9 años&quot;     &quot;Juanita Arteaga tiene 38 años&quot;    
+## [21] &quot;Alejandro Neusa tiene 30 años&quot;     &quot;David Diaz tiene 27 años&quot;         
+## [23] &quot;Camila Jimenez tiene 10 años&quot;      &quot;Juanita Huertas tiene 35 años&quot;    
+## [25] &quot;Juanita Diaz tiene 21 años&quot;        &quot;Diana Arias tiene 24 años&quot;        
+## [27] &quot;Angela Galindo tiene 15 años&quot;      &quot;Raul Valencia tiene 31 años&quot;      
+## [29] &quot;Carolina Valencia tiene 46 años&quot;   &quot;Maria Villamizar tiene 46 años&quot;   
+## [31] &quot;Alejandro Charry tiene 47 años&quot;    &quot;Camila Guacheta tiene 21 años&quot;    
+## [33] &quot;Pharad Echeverri tiene 40 años&quot;    &quot;Nicolas Echeverri tiene 27 años&quot;  
+## [35] &quot;Yilmer Diaz tiene 26 años&quot;         &quot;Edinson Munoz tiene 38 años&quot;      
+## [37] &quot;Jose Rojas tiene 8 años&quot;           &quot;Salomon Jaramillo tiene 14 años&quot;  
+## [39] &quot;Paula Echeverri tiene 21 años&quot;     &quot;Alexander Rojas tiene 19 años&quot;    
+## [41] &quot;Laura Neusa tiene 22 años&quot;         &quot;Juliana Galindo tiene 24 años&quot;    
+## [43] &quot;Manuela Corredor tiene 21 años&quot;    &quot;Felipe Aguilar tiene 33 años&quot;     
 ## [45] &quot;Paula Martinez tiene 10 años&quot;      &quot;Raul Caballero tiene 30 años&quot;     
-## [47] &quot;German Munoz tiene 40 años&quot;        &quot;Valentina Carbonell tiene 50 años&quot;
-## [49] &quot;Silvia Galindo tiene 8 años&quot;       &quot;David Martinez tiene 30 años&quot;</code></pre>
+## [47] &quot;German Munoz tiene 39 años&quot;        &quot;Valentina Carbonell tiene 48 años&quot;
+## [49] &quot;Silvia Galindo tiene 8 años&quot;       &quot;David Martinez tiene 29 años&quot;</code></pre>
 </div>
 <div id="usando-un-loop-realicen-un-código-que-presente-print-la-edad-de-cada-uno-de-los-individuos-dentro-de-las-listas-pero-únicamente-si-el-nombre-del-individuo-empieza-por-una-letra-distinta-de-j-y-la-edad-sea-distinta-de-un-número-par." class="section level3">
 <h3>1.4) Usando un loop realicen un código que presente (print) la edad
 de cada uno de los individuos dentro de las listas, pero únicamente si
 el nombre del individuo empieza por una letra distinta de J y la edad
 sea distinta de un número par.</h3>
-<pre class="r"><code>for (j in 1:length(l_oracion[[1]])){
+<pre class="r"><code>## Creamos un ciclo for que va desde 1 hasta el número de elementos de la lista oración (50), luego pasamos a dos codicionales, el primero evalúa si el nombre inicia por J y el segundo si el residuo de dividir la edad en 2 es mayor que cero, si lo es, el número es impar, a los elementos que pasen ambas condiciones se les hará &quot;print&quot;.
+
+for (j in 1:length(l_oracion[[1]])){
   
   
   if(substring(l_oracion[[1]][j],1,1)==&quot;J&quot;){
@@ -466,6 +472,8 @@ sea distinta de un número par.</h3>
   
 
 }</code></pre>
+<pre><code>## [1] &quot;Juanita Huertas tiene 35 años&quot;
+## [1] &quot;Juanita Diaz tiene 21 años&quot;</code></pre>
 </div>
 <div id="programen-una-función-que-tome-como-entrada-una-lista-con-valores-numéricos-y-que-su-output-sea-el-promedio-de-los-valores-de-la-lista-y-la-desviación-estándar-asociada-a-la-misma-muestra.-usando-esta-función-respondan-cuál-es-la-edad-promedio-de-su-lista-cuál-es-la-desviación-estándar" class="section level3">
 <h3>1.5) Programen una función que tome como entrada una lista con
@@ -483,8 +491,8 @@ desviación estándar?</h3>
   }
 
 funcion_param_stat(l_edad[[1]])</code></pre>
-<pre><code>## [1] &quot;La edad promedio es 28.32&quot;
-## [1] &quot;La desviación estándar es 13.38&quot;</code></pre>
+<pre><code>## [1] &quot;La edad promedio es 27.66&quot;
+## [1] &quot;La desviación estándar es 12.3&quot;</code></pre>
 </div>
 <div id="programen-una-función-que-tome-como-entrada-una-lista-con-valores-numéricos-y-estandarice-los-valores.-es-decir-que-los-transforme-a-una-normal-estándar-los-datos.-apliquen-las-funciones-que-desarrollaron-en-el-literal-1.5-dentro-de-la-función-que-propongan-en-este-literal" class="section level3">
 <h3>1.6) Programen una función que tome como entrada una lista con
@@ -512,15 +520,15 @@ este literal</h3>
   }
 
 dist_estandar &lt;- funcion_norm_estan(l_edad[[1]])</code></pre>
-<pre><code>##  [1] -1.6684768  1.6206352  0.1255843  0.8731097  0.8731097 -1.3694666
-##  [7] -1.7432293 -0.6219412  0.1255843 -0.6219412  0.1255843  0.8731097
-## [13]  0.8731097 -0.6219412  0.8731097  0.1255843  1.6206352  0.8731097
-## [19] -1.4442191  0.8731097  0.1255843  0.1255843 -1.3694666  0.8731097
-## [25] -0.6219412 -0.6219412 -0.6219412  0.1255843  1.6206352  1.6206352
-## [31]  1.6206352 -0.6219412  0.8731097  0.1255843  0.1255843  0.8731097
-## [37] -1.5189717 -1.3694666 -0.6219412 -0.6219412 -0.6219412 -0.6219412
-## [43] -0.6219412  0.1255843 -1.3694666  0.1255843  0.8731097  1.6206352
-## [49] -1.5189717  0.1255843</code></pre>
+<pre><code>##  [1] -1.7609744  1.7349582  0.1089430  1.0032514  0.8406498 -1.3544706
+##  [7] -1.8422752 -0.4601623  0.1089430 -0.9479668  0.2715445  0.6780483
+## [13]  0.5967476 -0.2975608  0.8406498  0.3528453  1.7349582  0.6780483
+## [19] -1.5170721  0.8406498  0.1902438 -0.0536585 -1.4357714  0.5967476
+## [25] -0.5414630 -0.2975608 -1.0292676  0.2715445  1.4910559  1.4910559
+## [31]  1.5723567 -0.5414630  1.0032514 -0.0536585 -0.1349593  0.8406498
+## [37] -1.5983729 -1.1105684 -0.5414630 -0.7040646 -0.4601623 -0.2975608
+## [43] -0.5414630  0.4341460 -1.4357714  0.1902438  0.9219506  1.6536574
+## [49] -1.5983729  0.1089430</code></pre>
 </div>
 <div id="por-otra-parte-generen-una-lista-de-listas-llamada-outcomes_nominales.-esta-lista-contendrá-3-vectores-de-50-observaciones-cada-uno-con-los-outcomes-de-interés-salario-índice-de-salud-experiencia-laboral.-para-esto-generen-para-cada-vector-valores-numéricos-de-clase-float-basado-en-una-distribución-normal-estándar-con-media-0-y-varianza-1." class="section level3">
 <h3>1.7) Por otra parte, generen una lista de listas llamada
@@ -545,129 +553,153 @@ output una matriz X que concatene los datos de esta lista y un vector de
     vector_unos &lt;- rep(1,length(lista[[1]]))
     matriz &lt;- cbind(lista,vector_unos)
     
-    print(matriz)
+    print(matriz) 
     
   }
 
-  funcion_lista_matriz(l_edad[[1]])</code></pre>
+ funcion_lista_matriz(l_edad[[1]])</code></pre>
 <pre><code>##       lista vector_unos
 ##  [1,]     6           1
-##  [2,]    50           1
-##  [3,]    30           1
+##  [2,]    49           1
+##  [3,]    29           1
 ##  [4,]    40           1
-##  [5,]    40           1
-##  [6,]    10           1
+##  [5,]    38           1
+##  [6,]    11           1
 ##  [7,]     5           1
-##  [8,]    20           1
-##  [9,]    30           1
-## [10,]    20           1
-## [11,]    30           1
-## [12,]    40           1
-## [13,]    40           1
-## [14,]    20           1
-## [15,]    40           1
-## [16,]    30           1
-## [17,]    50           1
-## [18,]    40           1
+##  [8,]    22           1
+##  [9,]    29           1
+## [10,]    16           1
+## [11,]    31           1
+## [12,]    36           1
+## [13,]    35           1
+## [14,]    24           1
+## [15,]    38           1
+## [16,]    32           1
+## [17,]    49           1
+## [18,]    36           1
 ## [19,]     9           1
-## [20,]    40           1
+## [20,]    38           1
 ## [21,]    30           1
-## [22,]    30           1
+## [22,]    27           1
 ## [23,]    10           1
-## [24,]    40           1
-## [25,]    20           1
-## [26,]    20           1
-## [27,]    20           1
-## [28,]    30           1
-## [29,]    50           1
-## [30,]    50           1
-## [31,]    50           1
-## [32,]    20           1
+## [24,]    35           1
+## [25,]    21           1
+## [26,]    24           1
+## [27,]    15           1
+## [28,]    31           1
+## [29,]    46           1
+## [30,]    46           1
+## [31,]    47           1
+## [32,]    21           1
 ## [33,]    40           1
-## [34,]    30           1
-## [35,]    30           1
-## [36,]    40           1
+## [34,]    27           1
+## [35,]    26           1
+## [36,]    38           1
 ## [37,]     8           1
-## [38,]    10           1
-## [39,]    20           1
-## [40,]    20           1
-## [41,]    20           1
-## [42,]    20           1
-## [43,]    20           1
-## [44,]    30           1
+## [38,]    14           1
+## [39,]    21           1
+## [40,]    19           1
+## [41,]    22           1
+## [42,]    24           1
+## [43,]    21           1
+## [44,]    33           1
 ## [45,]    10           1
 ## [46,]    30           1
-## [47,]    40           1
-## [48,]    50           1
+## [47,]    39           1
+## [48,]    48           1
 ## [49,]     8           1
-## [50,]    30           1</code></pre>
+## [50,]    29           1</code></pre>
 </div>
 <div id="a-partir-de-la-función-anterior-consoliden-una-matriz-x-con-la-edad-de-los-individuos-estandarizada-y-un-vector-de-1s-asociado-a-una-constante." class="section level3">
 <h3>1.9) A partir de la función anterior consoliden una matriz X con la
 edad de los individuos estandarizada y un vector de 1´s asociado a una
 constante.</h3>
 <pre class="r"><code>vect_edad_estandar &lt;- funcion_norm_estan(l_edad[[1]])</code></pre>
-<pre><code>##  [1] -1.6684768  1.6206352  0.1255843  0.8731097  0.8731097 -1.3694666
-##  [7] -1.7432293 -0.6219412  0.1255843 -0.6219412  0.1255843  0.8731097
-## [13]  0.8731097 -0.6219412  0.8731097  0.1255843  1.6206352  0.8731097
-## [19] -1.4442191  0.8731097  0.1255843  0.1255843 -1.3694666  0.8731097
-## [25] -0.6219412 -0.6219412 -0.6219412  0.1255843  1.6206352  1.6206352
-## [31]  1.6206352 -0.6219412  0.8731097  0.1255843  0.1255843  0.8731097
-## [37] -1.5189717 -1.3694666 -0.6219412 -0.6219412 -0.6219412 -0.6219412
-## [43] -0.6219412  0.1255843 -1.3694666  0.1255843  0.8731097  1.6206352
-## [49] -1.5189717  0.1255843</code></pre>
+<pre><code>##  [1] -1.7609744  1.7349582  0.1089430  1.0032514  0.8406498 -1.3544706
+##  [7] -1.8422752 -0.4601623  0.1089430 -0.9479668  0.2715445  0.6780483
+## [13]  0.5967476 -0.2975608  0.8406498  0.3528453  1.7349582  0.6780483
+## [19] -1.5170721  0.8406498  0.1902438 -0.0536585 -1.4357714  0.5967476
+## [25] -0.5414630 -0.2975608 -1.0292676  0.2715445  1.4910559  1.4910559
+## [31]  1.5723567 -0.5414630  1.0032514 -0.0536585 -0.1349593  0.8406498
+## [37] -1.5983729 -1.1105684 -0.5414630 -0.7040646 -0.4601623 -0.2975608
+## [43] -0.5414630  0.4341460 -1.4357714  0.1902438  0.9219506  1.6536574
+## [49] -1.5983729  0.1089430</code></pre>
 <pre class="r"><code>matriz_edad_estandar &lt;- funcion_lista_matriz(vect_edad_estandar)</code></pre>
 <pre><code>##            lista vector_unos
-##  [1,] -1.6684768           1
-##  [2,]  1.6206352           1
-##  [3,]  0.1255843           1
-##  [4,]  0.8731097           1
-##  [5,]  0.8731097           1
-##  [6,] -1.3694666           1
-##  [7,] -1.7432293           1
-##  [8,] -0.6219412           1
-##  [9,]  0.1255843           1
-## [10,] -0.6219412           1
-## [11,]  0.1255843           1
-## [12,]  0.8731097           1
-## [13,]  0.8731097           1
-## [14,] -0.6219412           1
-## [15,]  0.8731097           1
-## [16,]  0.1255843           1
-## [17,]  1.6206352           1
-## [18,]  0.8731097           1
-## [19,] -1.4442191           1
-## [20,]  0.8731097           1
-## [21,]  0.1255843           1
-## [22,]  0.1255843           1
-## [23,] -1.3694666           1
-## [24,]  0.8731097           1
-## [25,] -0.6219412           1
-## [26,] -0.6219412           1
-## [27,] -0.6219412           1
-## [28,]  0.1255843           1
-## [29,]  1.6206352           1
-## [30,]  1.6206352           1
-## [31,]  1.6206352           1
-## [32,] -0.6219412           1
-## [33,]  0.8731097           1
-## [34,]  0.1255843           1
-## [35,]  0.1255843           1
-## [36,]  0.8731097           1
-## [37,] -1.5189717           1
-## [38,] -1.3694666           1
-## [39,] -0.6219412           1
-## [40,] -0.6219412           1
-## [41,] -0.6219412           1
-## [42,] -0.6219412           1
-## [43,] -0.6219412           1
-## [44,]  0.1255843           1
-## [45,] -1.3694666           1
-## [46,]  0.1255843           1
-## [47,]  0.8731097           1
-## [48,]  1.6206352           1
-## [49,] -1.5189717           1
-## [50,]  0.1255843           1</code></pre>
+##  [1,] -1.7609744           1
+##  [2,]  1.7349582           1
+##  [3,]  0.1089430           1
+##  [4,]  1.0032514           1
+##  [5,]  0.8406498           1
+##  [6,] -1.3544706           1
+##  [7,] -1.8422752           1
+##  [8,] -0.4601623           1
+##  [9,]  0.1089430           1
+## [10,] -0.9479668           1
+## [11,]  0.2715445           1
+## [12,]  0.6780483           1
+## [13,]  0.5967476           1
+## [14,] -0.2975608           1
+## [15,]  0.8406498           1
+## [16,]  0.3528453           1
+## [17,]  1.7349582           1
+## [18,]  0.6780483           1
+## [19,] -1.5170721           1
+## [20,]  0.8406498           1
+## [21,]  0.1902438           1
+## [22,] -0.0536585           1
+## [23,] -1.4357714           1
+## [24,]  0.5967476           1
+## [25,] -0.5414630           1
+## [26,] -0.2975608           1
+## [27,] -1.0292676           1
+## [28,]  0.2715445           1
+## [29,]  1.4910559           1
+## [30,]  1.4910559           1
+## [31,]  1.5723567           1
+## [32,] -0.5414630           1
+## [33,]  1.0032514           1
+## [34,] -0.0536585           1
+## [35,] -0.1349593           1
+## [36,]  0.8406498           1
+## [37,] -1.5983729           1
+## [38,] -1.1105684           1
+## [39,] -0.5414630           1
+## [40,] -0.7040646           1
+## [41,] -0.4601623           1
+## [42,] -0.2975608           1
+## [43,] -0.5414630           1
+## [44,]  0.4341460           1
+## [45,] -1.4357714           1
+## [46,]  0.1902438           1
+## [47,]  0.9219506           1
+## [48,]  1.6536574           1
+## [49,] -1.5983729           1
+## [50,]  0.1089430           1</code></pre>
+</div>
+</div>
+<div id="segundo-punto" class="section level2">
+<h2>Segundo punto</h2>
+<div id="programen-una-función-que-tome-como-input-una-matriz-x-estocástica-de-rango-completo-y-un-vector-y_i-posteriormente-el-output-debe-corresponder-a-una-estimación-puntual-del-estimador-β_1-de-mínimos-cuadrados-ordinarios-mco-para-la-muestra-y-a-su-error-estándar-asociado-σ_β." class="section level3">
+<h3>1.9) Programen una función que tome como input una matriz X
+estocástica de rango completo y un vector〖 y〗_i, posteriormente, el
+output debe corresponder a una estimación puntual del estimador (β_1) de
+Mínimos Cuadrados Ordinarios (MCO) para la muestra y a su error estándar
+asociado (σ_β).</h3>
+<pre class="r"><code>funcion_MCO &lt;- function(matriz_in,vector_in){
+  
+    beta_1 &lt;- inv(t(matriz_in) %*% matriz_in) %*% (t(matriz_in) %*% vector_in)
+    print(beta_1)  
+  
+}</code></pre>
+</div>
+<div id="utilizando-un-loop-apliquen-esta-funcin-a-los-diferentes-outcomes-en-las-listas-de-outcomes_nominales-guarden-los-coeficientes-estimados-y-las-desviaciones-estndar-en-una-matriz-donde-la-primera-columna-corresponde-al-nombre-del-outcome-la-segunda-columna-al-coeficiente-estimado-1-y-la-tercera-al-error-estndar-s.-en-esta-matriz-cada-fila-representar-una-estimacin." class="section level3">
+<h3>Utilizando un loop, apliquen esta funci?n a los diferentes outcomes
+en las listas de outcomes_nominales, guarden los coeficientes estimados
+y las desviaciones est?ndar en una matriz donde la primera columna
+corresponde al nombre del outcome, la segunda columna al coeficiente
+estimado (?<em>1) y la tercera al error est?ndar (s</em>?). En esta
+matriz, cada fila representar? una estimaci?n. </h3>
 </div>
 </div>
 
