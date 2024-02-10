@@ -200,5 +200,14 @@ funcion_MCO <- function(matriz_in,vector_in){
 
 ```{r aplicación MCO}
 
+for(nout in 1:length(outcomes_nominales)){
+  
+  
+  
+}
+
+```
+
+
 
 
