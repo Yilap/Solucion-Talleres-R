@@ -17,7 +17,7 @@ options(encoding = "utf-8")
 
 ### 1.1) Definan una semilla para trabajar durante el script. Respondan: ¬øPor qu√© es importante definir una semilla?
 
-Respuesta: Seg√∫n R-Coder.com, la definici√≥n de una semilla es la inicializaci√≥n de un generador de n√∫meros pseudoaleatorios, que son utilizados para la simulaci√≥n de distribuciones de probabilidad que sean requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos n√∫meros generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla.
+Respuesta: Seg√∫n R-Coder.com, la definici√≥n de una semilla es que es el iniciador de un generador de n√∫meros pseudoaleatorios, que son utilizados para la simulaci√≥n de distribuciones de probabilidad que sean requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos n√∫meros generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla.
 
 Es importante definir una semilla en un algoritmo que vaya a utilizar un generador de n√∫meros con distribuciones de probabilidad ya que permite que otras personas puedan llegar al mismo resultado con el algoritmo y los datos utilizados. Si no se definiera, los resultados cambiar√≠an cada vez que se ejecutara el c√≥digo, dada la naturaleza de los datos que se est√° utilizando.
 
@@ -59,12 +59,15 @@ l_nombres = list(nom_apellido)
 
 l_oracion <- c()
 
+#creamos un bucle que va desde 1 hasta el n√∫mero de elementos (50), es cada paso del bucle se concatenar√°n con "paste" las listas y se guarad√°n en una posici√≥n de la lista "l_oracion"
+
 for (i in 1:length(l_nombres[[1]])){
   
   l_oracion[[1]][i] <- paste(l_nombres[[1]][i],"tiene",l_edad[[1]][i],
                           l_texto[[1]][i])    
   
 }
+
 
 l_oracion
 
@@ -74,6 +77,7 @@ l_oracion
 
 ```{r loop selecci√≥n de J}
 
+## Creamos un ciclo for que va desde 1 hasta el n√∫mero de elementos de la lista oraci√≥n (50), luego pasamos a dos codicionales, el primero eval√∫a si el nombre inicia por J y el segundo si el residuo de dividir la edad en 2 es mayor que cero, si lo es, el n√∫mero es impar, a los elementos que pasen ambas condiciones se les har√° "print".
 
 for (j in 1:length(l_oracion[[1]])){
   
@@ -177,9 +181,9 @@ matriz_edad_estandar <- funcion_lista_matriz(vect_edad_estandar)
 
 ## Segundo punto
 
-### Programen una funciÛn que tome como input una matriz X estoc·stica de rango completo y un vector??? y???_i, posteriormente, el output debe corresponder a una estimaciÛn puntual del estimador (ﬂ_1) de MÌnimos Cuadrados Ordinarios (MCO) para la muestra y a su error est·ndar asociado (s_ﬂ).
+### Programen una funci?n que tome como input una matriz X estoc?stica de rango completo y un vector??? y???_i, posteriormente, el output debe corresponder a una estimaci?n puntual del estimador (?_1) de M?nimos Cuadrados Ordinarios (MCO) para la muestra y a su error est?ndar asociado (s_?).
 
-```{r funciÛn MCO}
+```{r funci?n MCO}
 
 funcion_MCO <- function(matriz_in,vector_in){
   
@@ -190,7 +194,7 @@ funcion_MCO <- function(matriz_in,vector_in){
 
 ```
 
-### 	Utilizando un loop, apliquen esta funciÛn a los diferentes outcomes en las listas de outcomes_nominales, guarden los coeficientes estimados y las desviaciones est·ndar en una matriz donde la primera columna corresponde al nombre del outcome, la segunda columna al coeficiente estimado (ﬂ_1) y la tercera al error est·ndar (s_ﬂ). En esta matriz, cada fila representar· una estimaciÛn. 
+### 	Utilizando un loop, apliquen esta funci?n a los diferentes outcomes en las listas de outcomes_nominales, guarden los coeficientes estimados y las desviaciones est?ndar en una matriz donde la primera columna corresponde al nombre del outcome, la segunda columna al coeficiente estimado (?_1) y la tercera al error est?ndar (s_?). En esta matriz, cada fila representar? una estimaci?n. 
 
-```{r aplicaciÛn MCO}
+```{r aplicaci?n MCO}
 
