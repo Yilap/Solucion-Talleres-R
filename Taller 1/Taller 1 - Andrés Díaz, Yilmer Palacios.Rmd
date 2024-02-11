@@ -198,7 +198,7 @@ a <-  funcion_MCO(matrix(outcomes_nominales[[1]]),matrix(matriz_edad_estandar[,1
                 
 ```
 
-### 2.1)	Utilizando un loop, apliquen esta función a los diferentes outcomes en las listas de outcomes_nominales, guarden los coeficientes estimados y las desviaciones estándar en una matriz donde la primera columna corresponde al nombre del outcome, la segunda columna al coeficiente estimado (β1) y la tercera al error estándar (σβ). En esta matriz, cada fila representará una estimación. 
+### 2.2)	Utilizando un loop, apliquen esta función a los diferentes outcomes en las listas de outcomes_nominales, guarden los coeficientes estimados y las desviaciones estándar en una matriz donde la primera columna corresponde al nombre del outcome, la segunda columna al coeficiente estimado (β1) y la tercera al error estándar (σβ). En esta matriz, cada fila representará una estimación. 
 
 ```{r aplicación MCO}
 
@@ -227,25 +227,35 @@ for(nout in 1:length(outcomes_nominales)){
 matrizest
 
 ```
-```{r}
 
-y = c(matrix(matriz_edad_estandar[,1]))
-x1 = c(matrix(outcomes_nominales[[1]]))
-x2 = c(matrix(outcomes_nominales[[2]]))
-x3 = c(matrix(outcomes_nominales[[3]]))
+```{r Hacer regresiones con comando lm}
+# Para probar que está bien los errores estándar y los betas
+#y = c(matrix(matriz_edad_estandar[,1]))
+#x1 = c(matrix(outcomes_nominales[[1]]))
+#x2 = c(matrix(outcomes_nominales[[2]]))
+#x3 = c(matrix(outcomes_nominales[[3]]))
 
-datos <- data.frame(y, x1, x2, x3)
+#datos <- data.frame(y, x1, x2, x3)
 
-modelo1 = lm(y ~ -1 + x1, data = datos)
-modelo2 = lm(y ~ -1 + x2, data = datos)
-modelo3 = lm(y ~ -1 + x3, data = datos)
+#modelo1 = lm(y ~ -1 + x1, data = datos)
+#modelo2 = lm(y ~ -1 + x2, data = datos)
+#modelo3 = lm(y ~ -1 + x3, data = datos)
 
-summary(modelo1)
-summary(modelo2)
-summary(modelo3)
+#summary(modelo1)
+#summary(modelo2)
+#summary(modelo3)
 
 ```
+### 2.3)  Haciendo uso de un loop hagan un print para que, automáticamente y para cada outcome, se realice la interpretación econométrica de cada coeficiente de regresión que estimaron. Recuerden tener en cuenta las distribuciones de las variables para su interpretación. 
+
+```{r aplicación MCO - Interpretación de resultados}
 
 
+for(interpretación in 1:length(matrizest[1,])){
+  
+  print()
+  
+}
 
+```
 
