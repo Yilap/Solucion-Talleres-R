@@ -430,7 +430,7 @@ while(i<0){
   beta_1 <- beta_1 + paso_iteracion
   
   }
-print(beta_1)
+beta_1
 }
 
 
