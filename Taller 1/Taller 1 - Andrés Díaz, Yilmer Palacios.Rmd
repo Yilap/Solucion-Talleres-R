@@ -441,6 +441,9 @@ print(beta_1)
 
 ```{r estimación del beta con un min MSE}
 
+matriz_Est_numerico <- matrix(NA,nrow = length(outcomes_nominales),
+                                 ncol = 2)
+
 for (i in 1:length(outcomes_nominales)){
   
   #input
@@ -450,8 +453,13 @@ for (i in 1:length(outcomes_nominales)){
   
   #Se hace un loop para que abarque todos los outcomes
   
-  funcion_Min_MSE(matrix(outcomes_nominales[[i]]),
-                      matrix(matriz_edad_estandar[,1]),0)
+  
+  
+  matriz_Est_numerico [i,1] <- names(outcomes_nominales[i])
+  matriz_Est_numerico [i,2] <- round(funcion_Min_MSE(
+                                matrix(outcomes_nominales[[i]]),
+                                matrix(matriz_edad_estandar[,1]),0),3)
 }
+matriz_Est_numerico
 ```
 
