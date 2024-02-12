@@ -371,4 +371,87 @@ for (i in 1:length(outcomes_nominales)){
 #}
 
 ```
+### 2.4) Creen una función que calcule el MSE(y_i,x_(i,)  β_0,β_1). Es decir, que tenga como input un vector de〖 y〗_i, un vector/lista de x_i y los parámetros β_0 y β_1. Como output debe proveer un escalar correspondiente al MSE de esa combinación de inputs. 
+
+```{r cálculo de MSE}
+
+#Se crea una función para determinar el MSE
+
+funcion_MSE <- function(y_in,X_in,beta0,beta1){
+  
+  #Input
+    #y_in: Un vector del resultado
+    #X_in: Una matriz de los valores independientes
+    #beta0: Valor de la constante de la regresión lineal simple
+    #beta1: Estimador de la regresión para la variable independiente
+  
+  #Output
+    #MSE: Error al cuadrado promedio
+  
+  MSE <- sum((y_in - beta0 - beta1*X_in)^2)/length(y_in)
+  
+  
+  
+}
+
+funcion_MSE(matrix(outcomes_nominales[[1]]),
+            matrix(matriz_edad_estandar[,1]),1,1)
+
+```
+### 2.5) Utilizando un ciclo while generen una función que retorne el coeficiente 〖β^min〗_1 que minimiza el error de ajuste de los datos de forma numérica. 
+
+```{r estimación del mínimo MSE}
+
+funcion_Min_MSE <- function(y_in,X_in,beta) {
+
+#Valores iniciales
+
+i <- -1 #Diferencia entre MSE
+beta_1 <- -5 #Valor inicial de beta
+paso_iteracion <- 0.001 #El incremento de beta_1 por iteración
+MSE_t_1 <- 100 #Valor inicial de MSE
+
+while(i<0){
+  
+  #Se utiliza la función MSE del punto anterior
+  
+  invisible(MSE <- funcion_MSE(y_in,X_in,0,beta_1))
+  
+  #Se calcula la diferencia entre el MSE actual y el de la iteración
+  #anterior
+  i <- MSE - MSE_t_1
+  
+  #Se actualiza el valor del MSE para pasar a la siguiente iteración
+  
+  MSE_t_1 <- MSE
+  
+  #Se incrementa el valor de beta en un valor constante dado por
+  #el valor del paso de la iteración
+  beta_1 <- beta_1 + paso_iteracion
+  
+  }
+print(beta_1)
+}
+
+
+
+
+```
+### 2.6) Apliquen las funciones desarrolladas en los puntos anteriores para encontrar el 〖β^min〗_1 que minimiza el error cuadrático medio por métodos numéricos, suponiendo que  β_0=0, para los outcomes_nominales. Reporten sus resultados en una matriz con dos columnas: Nombre del outcome y 〖β^min〗_1. Esta matriz debe tener 3 filas, una por cada outcome
+
+```{r estimación del beta con un min MSE}
+
+for (i in 1:length(outcomes_nominales)){
+  
+  #input
+    #vector de y_in
+    #matriz de X
+    #beta_0 = 0
+  
+  #Se hace un loop para que abarque todos los outcomes
+  
+  funcion_Min_MSE(matrix(outcomes_nominales[[i]]),
+                      matrix(matriz_edad_estandar[,1]),0)
+}
+```
 
