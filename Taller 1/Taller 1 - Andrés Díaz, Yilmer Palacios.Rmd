@@ -17,7 +17,7 @@ options(encoding = "utf-8")
 
 ### 1.1) Definan una semilla para trabajar durante el script. Respondan: ¿Por qué es importante definir una semilla?
 
-Respuesta: Según R-Coder.com, la definición de una semilla es que es el iniciador de un generador de números pseudoaleatorios, que son utilizados para la simulación de distribuciones de probabilidad que sean requeridas por el algoritmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos números generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla.
+Respuesta: Según R-Coder.com, una semilla es el iniciador de un generador de números pseudoaleatorios, que son utilizados para la simulación de distribuciones de probabilidad que sean requeridas por el algorítmo. Al ser pseudoaleatorios, los resultados obtenidos a partir de estos números generados son replicables siempre y cuando se utilice el mismo generador y la misma semilla.
 
 Es importante definir una semilla en un algoritmo que vaya a utilizar un generador de números con distribuciones de probabilidad ya que permite que otras personas puedan llegar al mismo resultado con el algoritmo y los datos utilizados. Si no se definiera, los resultados cambiarían cada vez que se ejecutara el código, dada la naturaleza de los datos que se está utilizando.
 
@@ -82,7 +82,7 @@ l_oracion
 for (j in 1:length(l_oracion[[1]])){
   
   
-  if(substring(l_oracion[[1]][j],1,1)=="J"){
+  if(substring(l_oracion[[1]][j],1,1)!="J"){
     
     if(l_edad[[1]][j]%%2>0){
       
@@ -117,16 +117,16 @@ funcion_param_stat(l_edad[[1]])
 
 ```{r función estandarización}
 
-  funcion_norm_estan <- function(lista_edad){
+  funcion_norm_estan <- function(listaval){
     
-    media <- mean(lista_edad)
-    des_est <- sd(lista_edad)
+    media <- mean(listaval)
+    des_est <- sd(listaval)
 
     dist_estandar <- c()
     
-    for (i in 1:length(lista_edad)){
+    for (i in 1:length(listaval)){
     
-    dist_estandar[i] <- (lista_edad[i]-media)/des_est
+    dist_estandar[i] <- (listaval[i]-media)/des_est
     
     }
     
@@ -159,16 +159,18 @@ outcomes_nominales <- list(Salario = salario,IndiceSalud = ind_salud, ExpLaboral
     #Input
       #Vector de unos con la longitud de la edad
       #Vector de la edad con la edad    
-    vector_unos <- rep(1,length(lista[[1]]))
+    vector_unos <- matrix(rep(1,length(lista[[1]])),nrow=length(l_edad[[1]]))
     matriz <- cbind(lista,vector_unos)
     
     colnames(matriz)[1] <- "Edad"
     colnames(matriz)[2] <- "Constante"
-    print(matriz) 
+    matriz
     
   }
 
- funcion_lista_matriz(l_edad[[1]])
+matriz = funcion_lista_matriz(l_edad[[1]])
+print(matriz)
+class(matriz)
 
 ```
 ### 1.9)	A partir de la función anterior consoliden una matriz X con la edad de los individuos estandarizada y un vector de 1´s asociado a una constante.
@@ -176,9 +178,10 @@ outcomes_nominales <- list(Salario = salario,IndiceSalud = ind_salud, ExpLaboral
 ```{r matriz edad estandarizada}
 
 vect_edad_estandar <- funcion_norm_estan(l_edad[[1]])
+
 matriz_edad_estandar <- funcion_lista_matriz(vect_edad_estandar)
 colnames(matriz_edad_estandar)[1] <- "Edad estándar"
-
+matriz_edad_estandar
 
 ```
 
@@ -204,7 +207,7 @@ funcion_MCO_beta1 <- function(matriz_in,vector_in){
     # ee(Beta_1) = (Var(error)/STC)^0.5
       
       # Var(error) = SRC/(n-k-1) #Varianza del error
-        #SRC = suma((y_pred - y_in)^2) #Sumatoria de los residuales al           cuadrado
+        #SRC = suma((y_pred - y_in)^2) #Sumatoria de los residuales al cuadrado
         # k = 1 porque se van a hacer regresiones lineales simples
         #y_pred = X*beta_1 #Resultado predicho
       
