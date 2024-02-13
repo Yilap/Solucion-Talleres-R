@@ -13,7 +13,7 @@
 
 <meta name="date" content="2024-02-01" />
 
-<title>Taller 1</title>
+<title>Taller de programación en R: Taller 1</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,7 +350,7 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Taller 1</h1>
+<h1 class="title toc-ignore">Taller de programación en R: Taller 1</h1>
 <h4 class="author">Andrés Díaz, Yilmer Palacios</h4>
 <h4 class="date">2024-02-01</h4>
 
@@ -421,7 +421,6 @@ for (i in 1:length(l_nombres[[1]])){
   
 }
 
-
 l_oracion</code></pre>
 <pre><code>## [[1]]
 ##  [1] &quot;Camila Rincon tiene 6 años&quot;        &quot;Laura Aguilar tiene 49 años&quot;      
@@ -469,7 +468,6 @@ for (j in 1:length(l_oracion[[1]])){
     }
     
   }
-  
 
 }</code></pre>
 <pre><code>## [1] &quot;Juanita Huertas tiene 35 años&quot;
@@ -505,7 +503,6 @@ este literal</h3>
     media &lt;- mean(lista_edad)
     des_est &lt;- sd(lista_edad)
 
-    
     dist_estandar &lt;- c()
     
     for (i in 1:length(lista_edad)){
@@ -516,7 +513,6 @@ este literal</h3>
     
     print(dist_estandar)
    
-    
   }
 
 dist_estandar &lt;- funcion_norm_estan(l_edad[[1]])</code></pre>
@@ -541,7 +537,7 @@ media 0 y varianza 1.</h3>
 ind_salud &lt;- rnorm(50,0,1)
 exp_laboral &lt;- rnorm(50,0,1)
 
-outcomes_nominales &lt;- list(salario,ind_salud,exp_laboral)</code></pre>
+outcomes_nominales &lt;- list(Salario = salario,IndiceSalud = ind_salud, ExpLaboral = exp_laboral)</code></pre>
 </div>
 <div id="creen-una-función-que-transforme-una-lista-en-una-matriz.-para-esto-la-función-debe-tomar-como-input-una-lista-y-debe-tener-como-output-una-matriz-x-que-concatene-los-datos-de-esta-lista-y-un-vector-de-1s." class="section level3">
 <h3>1.8) Creen una función que transforme una lista en una matriz. Para
@@ -680,26 +676,154 @@ constante.</h3>
 </div>
 <div id="segundo-punto" class="section level2">
 <h2>Segundo punto</h2>
-<div id="programen-una-función-que-tome-como-input-una-matriz-x-estocástica-de-rango-completo-y-un-vector-y_i-posteriormente-el-output-debe-corresponder-a-una-estimación-puntual-del-estimador-β_1-de-mínimos-cuadrados-ordinarios-mco-para-la-muestra-y-a-su-error-estándar-asociado-σ_β." class="section level3">
-<h3>1.9) Programen una función que tome como input una matriz X
-estocástica de rango completo y un vector〖 y〗_i, posteriormente, el
-output debe corresponder a una estimación puntual del estimador (β_1) de
-Mínimos Cuadrados Ordinarios (MCO) para la muestra y a su error estándar
-asociado (σ_β).</h3>
+<div id="programen-una-función-que-tome-como-input-una-matriz-x-estocástica-de-rango-completo-y-un-vector-yi-posteriormente-el-output-debe-corresponder-a-una-estimación-puntual-del-estimador-β1-de-mínimos-cuadrados-ordinarios-mco-para-la-muestra-y-a-su-error-estándar-asociado-σβ." class="section level3">
+<h3>2.1) Programen una función que tome como input una matriz X
+estocástica de rango completo y un vector yi, posteriormente, el output
+debe corresponder a una estimación puntual del estimador (β1) de Mínimos
+Cuadrados Ordinarios (MCO) para la muestra y a su error estándar
+asociado (σβ).</h3>
 <pre class="r"><code>funcion_MCO &lt;- function(matriz_in,vector_in){
   
-    beta_1 &lt;- inv(t(matriz_in) %*% matriz_in) %*% (t(matriz_in) %*% vector_in)
+    beta_1 &lt;- solve(t(matriz_in) %*% matriz_in) %*% (t(matriz_in) %*% vector_in)
     print(beta_1)  
   
-}</code></pre>
+}
+
+b &lt;-  matrix(outcomes_nominales[[1]])
+c &lt;-  matrix(matriz_edad_estandar[,1])
+
+
+a &lt;-  funcion_MCO(matrix(outcomes_nominales[[1]]),matrix(matriz_edad_estandar[,1]))</code></pre>
+<pre><code>##             [,1]
+## [1,] -0.04792797</code></pre>
 </div>
-<div id="utilizando-un-loop-apliquen-esta-funcin-a-los-diferentes-outcomes-en-las-listas-de-outcomes_nominales-guarden-los-coeficientes-estimados-y-las-desviaciones-estndar-en-una-matriz-donde-la-primera-columna-corresponde-al-nombre-del-outcome-la-segunda-columna-al-coeficiente-estimado-1-y-la-tercera-al-error-estndar-s.-en-esta-matriz-cada-fila-representar-una-estimacin." class="section level3">
-<h3>Utilizando un loop, apliquen esta funci?n a los diferentes outcomes
-en las listas de outcomes_nominales, guarden los coeficientes estimados
-y las desviaciones est?ndar en una matriz donde la primera columna
-corresponde al nombre del outcome, la segunda columna al coeficiente
-estimado (?<em>1) y la tercera al error est?ndar (s</em>?). En esta
-matriz, cada fila representar? una estimaci?n. </h3>
+<div id="utilizando-un-loop-apliquen-esta-función-a-los-diferentes-outcomes-en-las-listas-de-outcomes_nominales-guarden-los-coeficientes-estimados-y-las-desviaciones-estándar-en-una-matriz-donde-la-primera-columna-corresponde-al-nombre-del-outcome-la-segunda-columna-al-coeficiente-estimado-β1-y-la-tercera-al-error-estándar-σβ.-en-esta-matriz-cada-fila-representará-una-estimación." class="section level3">
+<h3>2.2) Utilizando un loop, apliquen esta función a los diferentes
+outcomes en las listas de outcomes_nominales, guarden los coeficientes
+estimados y las desviaciones estándar en una matriz donde la primera
+columna corresponde al nombre del outcome, la segunda columna al
+coeficiente estimado (β1) y la tercera al error estándar (σβ). En esta
+matriz, cada fila representará una estimación.</h3>
+<pre class="r"><code>matrizest = matrix(&quot;Vacio&quot;, nrow = length(outcomes_nominales), ncol = 3) #Creamos Matriz vacía de 
+
+for(nout in 1:length(outcomes_nominales)){
+  
+  matrizest[nout,1] &lt;- names(outcomes_nominales[nout]) #colocamos los nombres de las listas en la primea columna
+  
+  matrizest[nout,2] &lt;- round(funcion_MCO(matrix(outcomes_nominales[[nout]]),matrix(matriz_edad_estandar[,1])),3) #usamos la función &quot;funcio_MCO&quot; para llenar la segunda columna con los estimadores de la regresión univariada edad normalizada vs cada outcome.
+  
+# Hallamos las matrices necesarias para el cálculo de la varianza y error estándar
+  
+  Yt &lt;- t(matrix(matriz_edad_estandar[,1]))
+  Y  &lt;- matrix(matriz_edad_estandar[,1])
+  B  &lt;- matrizest[nout,2]
+  Xt &lt;- t(matrix(outcomes_nominales[[nout]]))
+  n  &lt;- length(matrix(outcomes_nominales[[1]]))
+  k  &lt;- 1  #Seleccionamos k = 1 porque las regresiones son independientes, entonces los grados de libertad serán 1
+  var &lt;- round(((Yt %*% Y)-((as.numeric(B) * Xt) %*% Y))/(n-k),3)
+  ErrEstandar &lt;- var/(n**0.5)
+  matrizest[nout,3] &lt;- round(ErrEstandar,3) #Guardamos los errores estándar en la columna 3 de la matriz
+
+}</code></pre>
+<pre><code>##             [,1]
+## [1,] -0.04792797
+##            [,1]
+## [1,] 0.06716715
+##           [,1]
+## [1,] 0.1778085</code></pre>
+<pre class="r"><code>matrizest</code></pre>
+<pre><code>##      [,1]          [,2]     [,3]   
+## [1,] &quot;Salario&quot;     &quot;-0.048&quot; &quot;0.141&quot;
+## [2,] &quot;IndiceSalud&quot; &quot;0.067&quot;  &quot;0.141&quot;
+## [3,] &quot;ExpLaboral&quot;  &quot;0.178&quot;  &quot;0.137&quot;</code></pre>
+<pre class="r"><code># Para probar que está bien los errores estándar y los betas
+#y = c(matrix(matriz_edad_estandar[,1]))
+#x1 = c(matrix(outcomes_nominales[[1]]))
+#x2 = c(matrix(outcomes_nominales[[2]]))
+#x3 = c(matrix(outcomes_nominales[[3]]))
+
+#datos &lt;- data.frame(y, x1, x2, x3)
+
+#modelo1 = lm(y ~ -1 + x1, data = datos)
+#modelo2 = lm(y ~ -1 + x2, data = datos)
+#modelo3 = lm(y ~ -1 + x3, data = datos)
+
+#summary(modelo1)
+#summary(modelo2)
+#summary(modelo3)</code></pre>
+</div>
+<div id="haciendo-uso-de-un-loop-hagan-un-print-para-que-automáticamente-y-para-cada-outcome-se-realice-la-interpretación-econométrica-de-cada-coeficiente-de-regresión-que-estimaron.-recuerden-tener-en-cuenta-las-distribuciones-de-las-variables-para-su-interpretación." class="section level3">
+<h3>2.3) Haciendo uso de un loop hagan un print para que,
+automáticamente y para cada outcome, se realice la interpretación
+econométrica de cada coeficiente de regresión que estimaron. Recuerden
+tener en cuenta las distribuciones de las variables para su
+interpretación.</h3>
+<pre class="r"><code>for(interpretación in 1:length(matrizest[1,])){
+  
+  print(paste(&quot;Un incremento en una unidad de la variable &quot;, matrizest[interpretación,1],&quot; normalizada, con media cero y varianza 1, cambia en promedio la variable dependiente en &quot;, as.numeric(matrizest[interpretación,2]),&quot; unidades manteniendo todos los demás factores constantes; y su error estándar es de &quot;, matrizest[interpretación,3]))
+  
+}</code></pre>
+<pre><code>## [1] &quot;Un incremento en una unidad de la variable  Salario  normalizada, con media cero y varianza 1, cambia en promedio la variable dependiente en  -0.048  unidades manteniendo todos los demás factores constantes; y su error estándar es de  0.141&quot;
+## [1] &quot;Un incremento en una unidad de la variable  IndiceSalud  normalizada, con media cero y varianza 1, cambia en promedio la variable dependiente en  0.067  unidades manteniendo todos los demás factores constantes; y su error estándar es de  0.141&quot;
+## [1] &quot;Un incremento en una unidad de la variable  ExpLaboral  normalizada, con media cero y varianza 1, cambia en promedio la variable dependiente en  0.178  unidades manteniendo todos los demás factores constantes; y su error estándar es de  0.137&quot;</code></pre>
+</div>
+<div id="finalmente-mínimos-cuadrados-ordinarios-provee-una-solución-analítica-a-un-problema-de-minimización-convexa-de-la-siguiente-forma" class="section level3">
+<h3>Finalmente, mínimos cuadrados ordinarios provee una solución
+analítica a un problema de minimización convexa de la siguiente
+forma:</h3>
+<div id="mse-min-sumatoriayi--b0---b1xi2-n" class="section level4">
+<h4>MSE = min (sumatoria(yi- B0 - B1*Xi)^2) / n)</h4>
+</div>
+</div>
+<div id="la-anterior-función-representa-el-error-cuadrático-medio-y-se-conoce-en-la-literatura-como-mse-por-sus-siglas-en-inglés.-no-obstante-es-posible-encontrar-el-mínimo-de-esta-función-de-forma-numérica-para-un-conjunto-de-datos.-noten-que-para-cada-combinación-de-parámetros-β-y-un-vector-de-x_i-la-función-mse-tiene-un-valor-fijo.-por-lo-cual-es-posible-encontrar-la-combinación-asociada-a-un-mínimo." class="section level3">
+<h3>La anterior función representa el error cuadrático medio y se conoce
+en la literatura como MSE (por sus siglas en inglés). No obstante, es
+posible encontrar el mínimo de esta función de forma numérica para un
+conjunto de datos. Noten que para cada combinación de parámetros β y un
+vector de x_i, la función MSE tiene un valor fijo. Por lo cual, es
+posible encontrar la combinación asociada a un mínimo.</h3>
+</div>
+<div id="el-objetivo-de-este-punto-es-encontrar-numéricamente-el-coeficiente-que-minimiza-esta-función-para-las-relaciones-entre-los-outcomes_nominales-y-el-vector-de-la-edad-xi-estandarizado.-supongan-que-β00-hecho-que-es-natural-dadas-las-transformaciones-de-los-datos." class="section level3">
+<h3>El objetivo de este punto es encontrar numéricamente el coeficiente
+que minimiza esta función para las relaciones entre los
+outcomes_nominales y el vector de la edad (Xi) estandarizado. Supongan
+que β0=0, hecho que es natural dadas las transformaciones de los
+datos.</h3>
+<p>.</p>
+</div>
+<div id="creen-una-función-que-calcule-el-mseyixi-β0-β1.-es-decir-que-tenga-como-input-un-vector-de-yi-un-vectorlista-de-xi-y-los-parámetros-β0-y-β1.-como-output-debe-proveer-un-escalar-correspondiente-al-mse-de-esa-combinación-de-inputs.-." class="section level3">
+<h3>2.4) Creen una función que calcule el MSE(yi,xi, β0, β1). Es decir,
+que tenga como input un vector de yi, un vector/lista de xi y los
+parámetros β0 y β1. Como output debe proveer un escalar correspondiente
+al MSE de esa combinación de inputs. .</h3>
+</div>
+<div id="utilizando-un-ciclo-while-generen-una-función-que-retorne-el-coeficiente-βmin1-que-minimiza-el-error-de-ajuste-de-los-datos-de-forma-numérica.-para-esto-la-función-tiene-que-iniciar-con-un-β_1-en-el-área-negativa-por-ejemplo-β_10-2-y-calcular-con-la-función-realizada-en-el-2.4-el-msey_ixi-β_0β_10.-este-valor-corresponde-al-mse-inicial.-luego-deben-ir-aumentando-secuencialmente-en-algún-factor-de-su-interés-0.1-1-etc-el-β_1-por-lo-que-para-cada-nueva-iteración-del-ciclo-tendrán-algún-coeficiente-β_10β_11β_1t-con-un-mse-asociado.-ahora-la-condición-while-se-usa-para-que-β_1-siga-aumentando-en-la-medida-en-que-mset-yixi-β_0β_1t-mset-1-yixi-β_0β_1t-1-.-es-decir-mientras-el-error-asociado-a-este-nuevo-coeficiente-sea-menor-que-el-anterior.-noten-a-su-vez-que-para-el-momento-en-que-msetn-yixi-β_0β_1tn-msetn-1-yixi-β_0β_1tn-1-por-la-naturaleza-cuadrática-de-la-función-β_1tn-1-se-pasó-del-valor-mínimo-de-la-función-y-por-lo-tanto-se-usa-el-while-para-finalizar-el-ciclo-y-retornar-el-βmin_1que-minimiza-el-mse.-." class="section level3">
+<h3>2.5) Utilizando un ciclo while generen una función que retorne el
+coeficiente 〖β^min〗<em>1 que minimiza el error de ajuste de los datos
+de forma numérica. Para esto, la función tiene que iniciar con un β_1 en
+el área negativa, por ejemplo, 〖β_1〗^0=-2 y calcular con la función
+realizada en el 2.4) el MSE(y_i,x</em>(i,) β_0,〖β_1〗^0). Este valor
+corresponde al MSE inicial. Luego, deben ir aumentando secuencialmente
+en algún factor de su interés (0.1, 1, etc) el β_1 por lo que para cada
+nueva iteración del ciclo tendrán algún coeficiente
+〖β_1〗<sup>0,〖β_1〗</sup>1…,〖β_1〗^t con un MSE asociado. Ahora, la
+condición while se usa para que β_1 siga aumentando en la medida en que
+MSE^t (〖 y〗<em>i,x</em>(i,) β_0,〖β_1〗^t )&lt;〖MSE〗^(t-1) (〖
+y〗<em>i,x</em>(i,) β_0,〖β_1〗^(t-1) ). Es decir, mientras el error
+asociado a este nuevo coeficiente sea menor que el anterior. Noten a su
+vez que para el momento en que MSE^(t+n) (〖 y〗<em>i,x</em>(i,)
+β_0,〖β_1〗^(t+n) )&gt;〖MSE〗^(t+n-1) (〖 y〗<em>i,x</em>(i,)
+β_0,〖β_1〗^(t+n-1) ), por la naturaleza cuadrática de la función,
+〖β_1〗^(t+n-1) “se pasó” del valor mínimo de la función y por lo tanto
+se usa el while para finalizar el ciclo y retornar el 〖β^min〗_1que
+minimiza el MSE. .</h3>
+</div>
+<div id="haciendo-uso-de-un-loop-hagan-un-print-para-que-automáticamente-y-para-cada-outcome-se-realice-la-interpretación-econométrica-de-cada-coeficiente-de-regresión-que-estimaron.-recuerden-tener-en-cuenta-las-distribuciones-de-las-variables-para-su-interpretación.-1" class="section level3">
+<h3>2.3) Haciendo uso de un loop hagan un print para que,
+automáticamente y para cada outcome, se realice la interpretación
+econométrica de cada coeficiente de regresión que estimaron. Recuerden
+tener en cuenta las distribuciones de las variables para su
+interpretación.</h3>
 </div>
 </div>
 
