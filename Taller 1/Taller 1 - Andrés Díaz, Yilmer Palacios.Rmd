@@ -3,7 +3,9 @@ title: "Taller 1"
 author: "Andrés Díaz, Yilmer Palacios"
 date: "2024-02-01"
 output:
+  word_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -179,7 +181,7 @@ vect_edad_estandar <- funcion_norm_estan(l_edad[[1]])
 
 matriz_edad_estandar <- funcion_lista_matriz(vect_edad_estandar)
 colnames(matriz_edad_estandar)[1] <- "Edad estándar"
-
+print(matriz_edad_estandar)
 ```
 ## Segundo punto
 
