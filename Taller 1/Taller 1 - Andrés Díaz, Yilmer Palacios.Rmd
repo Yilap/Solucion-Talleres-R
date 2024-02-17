@@ -102,8 +102,17 @@ for (j in 1:length(l_oracion[[1]])){
 
   funcion_param_stat <- function(lista_edad){
     
+    #Input
+      #lista_edad: Lista con los valores de edad de los individuos
+    
+    #Output
+      #media: valor numérico que es la media de los valores de edad
+      #des_est: valor numérico que es la desviación estándar
+      #de los valores de edad
+    
     media <- mean(lista_edad)
     des_est <- sd(lista_edad)
+    
     print(paste("La edad promedio es",media))
     print(paste("La desviación estándar es",signif(des_est,4)))
     
@@ -118,16 +127,21 @@ funcion_param_stat(l_edad[[1]])
 
   funcion_norm_estan <- function(listaval){
     
-    media <- mean(listaval)
-    des_est <- sd(listaval)
-
-    dist_estandar <- c()
+    #Input
+      #listaval: Una lista de valores numéricos
     
+    media <- mean(listaval) #Media de los valores numéricos en la lista
+    des_est <- sd(listaval) #Desviación estándar de los valores                                     numéricos en la lista
+    dist_estandar <- c() #Se inicializa la variable de distribución
+    
+    #Se hace un loop para realizar la estandarización de cada valor
     for (i in 1:length(listaval)){
     
     dist_estandar[i] <- (listaval[i]-media)/des_est
     
     }
+    #Output
+      #dista_estandar: Lista de número estandarizados
     
     print(dist_estandar)
    
@@ -142,10 +156,11 @@ dist_estandar <- funcion_norm_estan(l_edad[[1]])
 ```{r lista outcomes_nominales}
 
 set.seed(31012024)
-salario <- rnorm(50,0,1)
-ind_salud <- rnorm(50,0,1)
-exp_laboral <- rnorm(50,0,1)
+salario <- rnorm(50,0,1) #Se estandariza el vector de salario
+ind_salud <- rnorm(50,0,1) #Se estandariza el vector de indice de salud
+exp_laboral <- rnorm(50,0,1) #Se estandariza el vector de indice de                                   experiencia laboral
 
+#Se crea una lista con las listas anteriormente estandarizadas
 outcomes_nominales <- list(Salario = salario,IndiceSalud = ind_salud, ExpLaboral = exp_laboral)
 print(outcomes_nominales)
 
@@ -160,6 +175,9 @@ print(outcomes_nominales)
       #Vector de unos con la longitud de la edad
       #Vector de la edad con la edad    
     vector_unos <- matrix(rep(1,length(lista[[1]])),nrow=length(l_edad[[1]]))
+    
+    #Output
+      #Matriz compuesta de los vectores de entrada
     matriz <- cbind(lista,vector_unos)
     
     colnames(matriz)[1] <- "Edad"
@@ -203,23 +221,6 @@ funcion_MCO_beta1 <- function(matriz_in,y_in){
   beta_1 <- solve(t(matriz_in) %*% matriz_in) %*% 
               (t(matriz_in) %*%   y_in)
   
-  #Fórmula 2
-    # ee(Beta_1) = (Var(error)/STC)^0.5
-      
-      # Var(error) = SRC/(n-k-1) #Varianza del error
-        #SRC = suma((y_pred - y_in)^2) #Sumatoria de los residuales al cuadrado
-        # k = 1 porque se van a hacer regresiones lineales simples
-        #y_pred = X*beta_1 #Resultado predicho
-      
-      # STC = suma((y_in - mean(y_in))^2) #Suma Total de Cuadrados
-    
-    y_pred <- matriz_in  %*% beta_1
-    SRC <- sum((y_pred - y_in)^2)
-    Var_error <- SRC/(length(y_in)-1-1)
-    STC <- sum((y_in - mean(y_in))^2)
-    
-    eeBeta_1 <- (Var_error/STC)^0.5
-
   #Output
     # Beta_1
     beta_1[1]
@@ -245,33 +246,21 @@ funcion_MCO_ee_beta1 <- function(matriz_in,y_in){
         # k = 1 porque se van a hacer regresiones lineales simples
         #y_pred = X*beta_1 #Resultado predicho
       
-      # STC = suma((y_in - mean(y_in))^2) #Suma Total de Cuadrados
+      # STCx = suma((x - mean(x))^2) #Suma Total de Cuadrados de X
     
     y_pred <- matriz_in  %*% beta_1
     SRC <- sum((y_pred - y_in)^2)
     Var_error <- SRC/(length(y_in)-1-1)
-    STC <- sum((y_in - mean(y_in))^2)
+    STC <- sum((matriz_in[,1] - mean(matriz_in[,1]))^2)
     
     eeBeta_1 <- (Var_error/STC)^0.5
 
   #Output
     # Error estándar de Beta_1
-   eeBeta_1
+    
+    eeBeta_1
 }
 
-
-#Estimación de variables (Prueba)
-
-#X <- matriz_edad_estandar
-#y_in <-  matrix(outcomes_nominales[[1]])
-
-
-#funcion_MCO_beta1(X,y_in)
-#funcion_MCO_ee_beta1(X,y_in)
-
-
-
-                
 ```
 
 ### 2.2)	Utilizando un loop, apliquen esta función a los diferentes outcomes en las listas de outcomes_nominales, guarden los coeficientes estimados y las desviaciones estándar en una matriz donde la primera columna corresponde al nombre del outcome, la segunda columna al coeficiente estimado (β1) y la tercera al error estándar (σβ). En esta matriz, cada fila representará una estimación. 
@@ -306,8 +295,8 @@ funcion_MCO_ee_beta1 <- function(matriz_in,y_in){
     
   
       matriz_Estimadores [i,1] <-  names(outcomes_nominales[i])
-      matriz_Estimadores [i,2] <-  round(beta,3)
-      matriz_Estimadores [i,3] <-  round(error_est,3)
+      matriz_Estimadores [i,2] <-  round(beta,5)
+      matriz_Estimadores [i,3] <-  round(error_est,5)
      
     }
 
@@ -349,11 +338,6 @@ for (i in 1:length(outcomes_nominales)){
     print(paste("Por cada incremento de una desviación estándar de la edad, la variable",matriz_Estimadores[i,1],"cambia en",matriz_Estimadores[i,2],"desviaciones estándar"))
 }
 
-#for(interpretación in 1:length(matrizest[1,])){
-  
- # print()
-  
-#}
 
 ```
 ### 2.4) Creen una función que calcule el MSE(y_i,x_(i,)  β_0,β_1). Es decir, que tenga como input un vector de yi, un vector/lista de xi y los parámetros β0 y β1. Como output debe proveer un escalar correspondiente al MSE de esa combinación de inputs. 
