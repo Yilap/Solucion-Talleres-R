@@ -1,0 +1,24 @@
+---
+title: "Taller 2 - Andrés Díaz, Yilmer Palacios"
+author: "Andrés Díaz - Cod: 200610686, Yilmer Palacios - Cod: 202214473"
+date: "2024-02-17"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(encoding = "utf-8")
+
+```
+
+## 1 Primer Punto
+
+### 1.1) 
+
+
+
+```{r cars}
+
+
+
+```
