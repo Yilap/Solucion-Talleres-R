@@ -1,6 +1,6 @@
 ---
 title: "Taller 1"
-author: "Andrés Díaz, Yilmer Palacios"
+author: "Andrés Díaz - Cod: 200610686, Yilmer Palacios - Cod: 202214473"
 date: "2024-02-01"
 output:
   word_document: default
@@ -405,7 +405,7 @@ beta_1
 
 
 ```
-### 2.6) Apliquen las funciones desarrolladas en los puntos anteriores para encontrar el 〖β^min〗_1 que minimiza el error cuadrático medio por métodos numéricos, suponiendo que  β_0=0, para los outcomes_nominales. Reporten sus resultados en una matriz con dos columnas: Nombre del outcome y 〖β^min〗_1. Esta matriz debe tener 3 filas, una por cada outcome
+### 2.6) Apliquen las funciones desarrolladas en los puntos anteriores para encontrar el β^min1 que minimiza el error cuadrático medio por métodos numéricos, suponiendo que  β_0=0, para los outcomes_nominales. Reporten sus resultados en una matriz con dos columnas: Nombre del outcome y β^min1. Esta matriz debe tener 3 filas, una por cada outcome
 
 ```{r estimación del beta con un min MSE}
 
