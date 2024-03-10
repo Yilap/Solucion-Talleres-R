@@ -34,24 +34,47 @@ setwd("C:/Users/Yilmer Palacios/Desktop/Solución Talleres R/Solucion-Talleres-R
 # Cargamos datos
 
 IPC <- read.table("1.2.5.IPC_Serie_variaciones.csv", header = TRUE, sep = ",")
+IPC$Mes.Año <- as.character(IPC$Mes.Año, "%Y%m")
+IPC$Mes.Año <- paste(substr(IPC$Mes.Año, start = 1, stop = 4),"-",substr(IPC$Mes.Año, start = 5, stop = 10))
+IPC$Mes.Año <- 
+IPC$Mes.Año <- as.Date(IPC$Mes.Año, "%Y - %m")
+
+?as.Date
+
 Carbon <- read.table("precios_carbon.csv", header = TRUE, sep = ",")
+Carbon$fecha <- as.Date(Carbon$fecha, "%Y-%m-%d")
+
 Gas <- read.table("precios_gas_natural.csv", header = TRUE, sep = ",")
+Gas$fecha <- as.Date(Gas$fecha, "%Y-%m-%d")
+
 Gasolina <- read.table("precios_gasolina.csv", header = TRUE, sep = ",")
+Gasolina$fecha <- as.Date(Gasolina$fecha, "%Y-%m-%d")
+
 Crudo <- read.table("precios_petroleo.csv", header = TRUE, sep = ",")
+Crudo$fecha <- as.Date(Crudo$fecha, "%Y-%m-%d")
+
 
 ```
 
-### 1.2. Realicen una exploración inicial de la base de datos. Para esto, para cada una de las bases de datos describan la misma. Es decir, redacten un breve párrafo comentando qué variables contiene la base de datos, el número de observaciones, el periodo de tiempo que comprende, el tipo de las variables, entre otros aspectos relevantes. Explorando las bases de datos de los precios de forma individual identifican que no todas tienen el mismo número de observaciones. Un hecho muy común cuando se trabaja con datos en formato panel es que algunas fechas para algunos productos no estén en la base de datos, es decir, hay fechas faltantes. A continuación, ustedes quieren “explicitar” las fechas faltantes.
+### 1.2. Realicen una exploración inicial de la base de datos. Para esto, para cada una de las bases de datos describan la misma. Es decir, redacten un breve párrafo comentando qué variables contiene la base de datos, el número de observaciones, el periodo de tiempo que comprende, el tipo de las variables, entre otros aspectos relevantes.
 
 ```{r}
 
-variables en las bases
-numeros de observaciones
-periodo de tiempo comprendido
-tipo de variables
+#variables en las bases
+#numeros de observaciones
+#periodo de tiempo comprendido
+#tipo de variables
 
+str(Carbon$fecha)
+colnames(Carbon)
+names(Carbon)
+
+apply(Crudo)
+
+summary(Crudo)
 
 ```
+## Explorando las bases de datos de los precios de forma individual identifican que no todas tienen el mismo número de observaciones. Un hecho muy común cuando se trabaja con datos en formato panel es que algunas fechas para algunos productos no estén en la base de datos, es decir, hay fechas faltantes. A continuación, ustedes quieren “explicitar” las fechas faltantes.
 
 ### 1.3. Creen una función que tenga como parámetros un dataframe, una columna de fecha y una columna de precio, posteriormente, la función tiene que agregar las fechas faltantes en la columna de fecha y añadir un missing value en su valor correspondiente en el precio para esta fecha explicitada. Finalmente, tiene que retornar el dataframe con las fechas completas.
 
