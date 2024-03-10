@@ -17,6 +17,10 @@ options(encoding = "utf-8")
 
 install.packages("openxlsx")
 library(openxlsx)
+library(tidyr)
+library(dplyr)
+library(openxlsx)
+library(ggplot2)
 
 ```
 # Primer Punto
@@ -29,7 +33,7 @@ library(openxlsx)
 
 # Definimos directorio
 getwd()
-setwd("C:/Users/Yilmer Palacios/Desktop/Solución Talleres R/Solucion-Talleres-R/Taller 2")
+setwd("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Taller de R/Talleres/Taller 1/Solucion-Talleres-R/Taller 2")
 
 # Cargamos datos
 
@@ -39,19 +43,22 @@ IPC$Mes.Año <- paste(substr(IPC$Mes.Año, start = 1, stop = 4),"-",substr(IPC$M
 IPC$Mes.Año <- 
 IPC$Mes.Año <- as.Date(IPC$Mes.Año, "%Y - %m")
 
-?as.Date
 
-Carbon <- read.table("precios_carbon.csv", header = TRUE, sep = ",")
-Carbon$fecha <- as.Date(Carbon$fecha, "%Y-%m-%d")
+precios_carbon <- read.table("precios_carbon.csv", header = TRUE,
+                             sep = ",")
+precios_carbon$fecha <- as.Date(precios_carbon$fecha, "%Y-%m-%d")
 
-Gas <- read.table("precios_gas_natural.csv", header = TRUE, sep = ",")
-Gas$fecha <- as.Date(Gas$fecha, "%Y-%m-%d")
+precios_gas_nat <- read.table("precios_gas_natural.csv", 
+                              header = TRUE, sep = ",")
+precios_gas_nat$fecha <- as.Date(precios_gas_nat$fecha, "%Y-%m-%d")
 
-Gasolina <- read.table("precios_gasolina.csv", header = TRUE, sep = ",")
-Gasolina$fecha <- as.Date(Gasolina$fecha, "%Y-%m-%d")
+precios_gasolina <- read.table("precios_gasolina.csv", 
+                               header = TRUE, sep = ",")
+precios_gasolina$fecha <- as.Date(precios_gasolina$fecha, "%Y-%m-%d")
 
-Crudo <- read.table("precios_petroleo.csv", header = TRUE, sep = ",")
-Crudo$fecha <- as.Date(Crudo$fecha, "%Y-%m-%d")
+precios_petroleo <- read.table("precios_petroleo.csv",
+                               header = TRUE, sep = ",")
+precios_petroleo$fecha <- as.Date(precios_petroleo$fecha, "%Y-%m-%d")
 
 
 ```
@@ -65,13 +72,26 @@ Crudo$fecha <- as.Date(Crudo$fecha, "%Y-%m-%d")
 #periodo de tiempo comprendido
 #tipo de variables
 
-str(Carbon$fecha)
-colnames(Carbon)
-names(Carbon)
+#str(Carbon$fecha)
+#colnames(Carbon)
+#names(Carbon)
 
-apply(Crudo)
+str(precios_carbon)
+summary(precios_carbon)
 
-summary(Crudo)
+str(precios_gas_nat)
+summary(precios_gas_nat)
+
+str(precios_gasolina)
+summary(precios_gasolina)
+
+str(precios_petroleo)
+summary(precios_petroleo)
+
+
+#apply(Crudo)
+
+#summary(Crudo)
 
 ```
 ## Explorando las bases de datos de los precios de forma individual identifican que no todas tienen el mismo número de observaciones. Un hecho muy común cuando se trabaja con datos en formato panel es que algunas fechas para algunos productos no estén en la base de datos, es decir, hay fechas faltantes. A continuación, ustedes quieren “explicitar” las fechas faltantes.
@@ -80,11 +100,62 @@ summary(Crudo)
 
 ```{r}
 
+completar_fechas <- function(base,fecha,precio){
+ 
+  #Input:
+  #base: dataframe de fechas y precios de combustibles
+  #fecha: columna de fechas
+  #precio: columna de valores numéricos con precio de combustibles
+    
+  #Sacar fechas mínimas y máximas  
+  fecha_min <- min(fecha)
+  fecha_max <- max(fecha)
+  
+  #Crear vector de fechas completas
+  fecha_completa <- fecha_min:fecha_max
+  fecha_completa <- as.Date(fecha_completa)
+
+  #Identificar cuáles fechas faltan
+  fechas_faltantes <- fecha_completa[which(!(fecha_completa %in% fecha))]
+  
+  #Crear vector de precios faltantes
+  precios_faltantes <- rep(x = NA,length(fechas_faltantes))
+  
+  #Unir vectores de fechas y precios faltantes
+  base_faltante <- as.data.frame(cbind(fechas_faltantes,precios_faltantes))
+  
+  #Unir las bases incompletas
+  names(base_faltante) <- names(base)
+  base <- rbind(base,base_faltante)
+  
+  #Organizar según fecha
+  base <- base[order(base$fecha),]
+  
+  return(base)
+  
+}
+
 ```
 
 ### 1.4. Apliquen la función anterior a cada uno de los precios en la base de datos.
 
 ```{r}
+
+precios_carbon <- completar_fechas(
+  precios_carbon,precios_carbon$fecha,precios_carbon$precio_carbon)
+
+precios_gas_nat <- completar_fechas(
+  precios_gas_nat,precios_gas_nat$fecha,
+  precios_gas_nat$precio_gas_natural)
+
+precios_gasolina <-completar_fechas(
+  precios_gasolina,precios_gasolina$fecha,
+  precios_gasolina$precio_gasolina)
+
+precios_petroleo <-completar_fechas(
+  precios_petroleo,precios_petroleo$fecha,
+  precios_petroleo$precio_petroleo)
+
 
 ```
 
@@ -92,11 +163,23 @@ summary(Crudo)
 
 ```{r}
 
+precios_combustible <- merge(precios_carbon,precios_gas_nat,by = "fecha")
+precios_combustible <- merge(precios_combustible,precios_gasolina,by = "fecha")
+precios_combustible <- merge(precios_combustible,precios_petroleo,by = "fecha")
+
+head(precios_combustible)
+
 ```
 
 ### 1.6. Realice las siguientes transformaciones de los datos: para la fecha transfórmenla de formato mm/dd/aa a un formato dd/mm/aa, revisen que las variables numéricas sean identificadas de tal forma y asegúrense de que tengan un formato de dos decimales.
 
 ```{r}
+
+precios_combustible$fecha <- as.Date(precios_combustible$fecha,"%d/%M/%Y")
+
+precios_combustible[2:5] <- round(precios_combustible[-1],2)
+
+head(precios_combustible)
 
 ```
 
@@ -104,11 +187,67 @@ summary(Crudo)
 
 ```{r}
 
+#Incluir mes y año
+
+precios_combustible <- precios_combustible %>%
+                        mutate(Mes = as.numeric(format(fecha,"%m"))) 
+
+precios_combustible <- precios_combustible %>%
+                        mutate(Año = as.numeric(format(fecha,"%Y")))
+
+#Filtrar la bases de datos
+
+precios_combustible <- precios_combustible %>% subset(Año>=2005) %>% 
+                          filter(!(Mes == 1 & 
+                                     Año == 2005))
+
+head(precios_combustible)
+
 ```
 
 ### 1.8. Revisen ¿Qué porcentaje de la base de datos cuenta con valores faltantes en el precio de algún bien? Sustituyan estos valores faltantes con el precio promedio de ese bien.
 
 ```{r}
+
+#Lista con variables de precio
+combustibles_p <- c("precio_carbon","precio_gas_natural",
+                    "precio_gasolina","precio_petroleo")
+
+#Estimación de cantidad de NA
+
+cantidad_NA <- precios_combustible[combustibles_p] %>% is.na() %>% sum()
+cantidad_sinNA <- sum(!is.na(precios_combustible[combustibles_p]))
+
+porcentaje <- cantidad_NA/(cantidad_NA+cantidad_sinNA)
+
+print(paste("El porcentaje de NA es",round(porcentaje*100,2),"%"))
+
+#Sustitución de los NA por el promedio
+
+precios_combustible <- precios_combustible %>% 
+  mutate(precio_carbon = ifelse(is.na(precio_carbon),
+                                mean(precio_carbon,na.rm = TRUE),
+                                precio_carbon))
+
+precios_combustible <- precios_combustible %>% 
+  mutate(precio_gas_natural = ifelse(is.na(precio_gas_natural),
+                                mean(precio_gas_natural,na.rm = TRUE),
+                                precio_gas_natural))
+
+precios_combustible <- precios_combustible %>% 
+  mutate(precio_gasolina = ifelse(is.na(precio_gasolina),
+                                  mean(precio_gasolina,na.rm = TRUE),
+                                  precio_gasolina))
+
+precios_combustible <- precios_combustible %>% 
+  mutate(precio_petroleo = ifelse(is.na(precio_petroleo),
+                                  mean(precio_petroleo,na.rm = TRUE),
+                                  precio_petroleo))
+
+#Verificación de imputación de valores
+
+sum(is.na(precios_combustible))
+
 
 ```
 
@@ -120,6 +259,19 @@ summary(Crudo)
 
 ```{r}
 
+#Agrupar la información de los precios a valores promedios por mes y año
+
+tabla_resumen <- precios_combustible %>% group_by(Año,Mes) %>%
+                  summarise(precio_carbon = 
+                              mean(precio_carbon),
+                            precio_gas_natural = 
+                              mean(precio_gas_natural),
+                            precio_gasolina = 
+                              mean(precio_gasolina),
+                            precio_petroleo = 
+                              mean(precio_petroleo))
+
+tabla_resumen
 ```
 
 ### 1.10. Creen una función que tenga como parámetros: una columna de una serie de un precio de la base de datos, un año, un mes y la columna del IPC de Colombia. Posteriormente, la función debe crear una nueva columna cuyo nombre sea: el “nombre del bien” + “año base” + “mes base” + el sufijo “_transformada”. Esta columna debe ser la transformación de valores nominales de la serie a valores reales con base en el año que toma como parámetro la función. Es decir, utilizando la ecuación (1) tendrán que consolidar una función que transforme los valores nominales en precios constantes con base en cualquier mes-año.
