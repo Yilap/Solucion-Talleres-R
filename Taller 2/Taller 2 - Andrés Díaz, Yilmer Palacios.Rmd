@@ -33,7 +33,9 @@ library(ggplot2)
 
 # Definimos directorio
 getwd()
-setwd("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Taller de R/Talleres/Taller 1/Solucion-Talleres-R/Taller 2")
+#setwd("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Taller de R/Talleres/Taller 1/Solucion-Talleres-R/Taller 2")
+
+setwd("C:/Users/Yilmer Palacios/Desktop/Solución Talleres R/Solucion-Talleres-R/Taller 2")
 
 # Cargamos datos
 
