@@ -297,29 +297,37 @@ tabla_resumen
 transf_precios_constantes <- function(precio,año,mes,IPC){
   
   #Input 
-  #precio: lista (num) de precios del combustible
+  #precio: lista (num) de precios nominales del combustible
   #año: año base (num) para cálculo de precios constantes [2000,2024]
   #mes: mes base (num) para cálculo de precios constantes [1,12]
   #IPC: lista de valores del índice (num)
   
+  #Output
+  #precio_real: columna (num) de precios reales del combustible
+  
+  #Crear variable Mes.Año para unir precios e IPC
   tabla_resumen <- tabla_resumen %>% mutate(Mes.Año = 
                                               paste(Año,Mes,sep =""))
   
+  #Modificar variable Mes.Año para unir precios e IPC
   IPC <- IPC %>% mutate(Mes.Año =                                               paste(Año,Mes,sep =""))
   
+  #Realizar unión de bases de datos
   resumen_conIPC <- merge(tabla_resumen,IPC[,c("Mes.Año","Indice")],
                           by = "Mes.Año")
   
+  #Ordenar base de datos
   resumen_conIPC <- resumen_conIPC[order(resumen_conIPC$Año,
                                          resumen_conIPC$Mes),]
   
   #Estimación del precio real
   
-  IPC_base <- resumen_conIPC$Indice[which(resumen_conIPC$Año == año & resumen_conIPC$Mes == mes)]
+  IPC_base <- resumen_conIPC$Indice[which(resumen_conIPC$Año == año & resumen_conIPC$Mes == mes)] #Tomar el valor de IPC según mes y año
   
-  IPC_t <- resumen_conIPC$Indice
+  IPC_t <- resumen_conIPC$Indice #Tomar el vector de IPC
   
-  resumen_conIPC$precio_real <- precio*IPC_base/IPC_t
+  precio_real <- precio*IPC_base/IPC_t #Ecuación deflactar
+  precio_real <- as.data.frame(precio_real) #Volver dataframe
   
   #Obtención del nombre de la columna
   combust_name <- deparse(substitute(precio)) #String de la columna
@@ -330,14 +338,13 @@ transf_precios_constantes <- function(precio,año,mes,IPC){
                          nchar("tabla_resumen$precio_")+15)
                         
   #Nombre completo con combustible, año y mes
-  name_columna <- paste(combust_name,año,mes,"_transformada")
-  names(resumen_conIPC)[9] <- name_columna
-  return(resumen_conIPC)
+  name_columna <- paste(combust_name,año,mes,"_transformada",sep="")
+  names(precio_real)[1] <- name_columna
+  
+  #Obtención de la columna
+  
+  return(precio_real)
 }
-
-tabla_resumen <- 
-  transf_precios_constantes(tabla_resumen$precio_gas_natural,
-                                         2012,11,IPC)
 
 ```
 
@@ -345,11 +352,49 @@ tabla_resumen <-
 
 ```{r}
 
+#Ajuste a enero del 2015
+
+#Carbón
+
+precio_real <- 
+  transf_precios_constantes(
+    tabla_resumen$precio_carbon,2015,01,IPC)
+
+tabla_resumen <- cbind(tabla_resumen,precio_real)
+
+#Gas Natural
+
+precio_real <- 
+  transf_precios_constantes(
+    tabla_resumen$precio_gas_natural,2015,01,IPC)
+
+tabla_resumen <- cbind(tabla_resumen,precio_real)
+
+#Gasolina
+
+precio_real <- 
+  transf_precios_constantes(
+    tabla_resumen$precio_gasolina,2015,01,IPC)
+
+tabla_resumen <- cbind(tabla_resumen,precio_real)
+
+#Petroleo
+
+precio_real <- 
+  transf_precios_constantes(
+    tabla_resumen$precio_petroleo,2015,01,IPC)
+
+tabla_resumen <- cbind(tabla_resumen,precio_real)
+
+tabla_resumen
+
 ```
 
-### 1.12. Exporte la base de datos consolidada en un archivo .csvSegundo punto
+### 1.12. Exporte la base de datos consolidada en un archivo .csv
 
 ```{r}
+
+write.csv(tabla_resumen,"Precios_reales_combustibles_201501.csv")
 
 ```
 
@@ -361,17 +406,59 @@ tabla_resumen <-
 
 ```{r}
 
+install.packages("psych")
+library(psych)
+
+describe(tabla_resumen)
+
 ```
 
 ### 2.2. Presenten una gráfica de dispersión de puntos (scatter) donde en el eje X esté el precio del carbón y en el eje Y el precio de la gasolina, ambos reales sobre un año determinado, añadan una línea de ajuste lineal, título, labels y demás elementos que permitan una gráfica autocontenida. Expliquen e interpreten en el documento los elementos más importantes de la base de datos.
 
 ```{r}
 
+library(ggplot2)
+
+ggplot(tabla_resumen %>% filter(Año == 2011), 
+       aes(x = carbon20151_transformada,
+           y =gasolina20151_transformada))+
+      geom_point()+
+      geom_smooth(method = "lm", se = FALSE,color="red")+
+      labs(x = "Precio real del carbón (base 2015-01) [COP/MBtu]",
+            y = "Precio real del gasolina (base 2015-01) [COP/MBtu]",
+            title = "Precio reales - Gasolina vs carbón - 2011")+
+      theme_bw()
+        
+
 ```
 
 ### 2.3. Presenten una gráfica de serie de tiempo con el precio real del Carbón, Gas Natural, Petróleo y Gasolina Corriente para un mismo año, asegúrense de que tenga el título, labels, colores y demás elementos que permitan una gráfica autocontenida. Expliquen e interpreten en el documento los elementos más importantes de la base de datos.
 
 ```{r}
+
+ggplot(tabla_resumen %>% filter(Año ==2012),aes(x = Mes))+
+  geom_line(aes(y = carbon20151_transformada,color="Carbón"))+
+  geom_point(aes(y = carbon20151_transformada,
+             color="Carbón"))+
+  geom_line(aes(y = gas_natural20151_transformada,color="Gas Natural"))+
+  geom_point(aes(y = gas_natural20151_transformada,
+             color="Gas Natural"))+
+  geom_line(aes(y = gasolina20151_transformada,color="Gasolina"))+
+  geom_point(aes(y = gasolina20151_transformada,
+             color="Gasolina"))+
+  geom_line(aes(y = petroleo20151_transformada,color="Petroleo"))+
+  geom_point(aes(y = petroleo20151_transformada,
+             color="Petroleo"))+
+  labs(x = "Mes",
+       y = "Precio del combustible (base 2015-01) [COP/MBtu]",
+       title = "Precios reales de los combustibles - 2012",
+       color = "Convenciones")+
+  theme_bw()+
+  scale_color_manual(values=c("Carbón"="blue",
+                              "Gas Natural"="red",
+                              "Gasolina"="purple",
+                              "Petroleo"="brown"))+
+  scale_x_continuous(breaks = seq(1, 12, by = 1))
 
 ```
 
