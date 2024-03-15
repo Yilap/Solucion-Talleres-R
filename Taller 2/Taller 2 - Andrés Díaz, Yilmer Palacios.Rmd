@@ -11,16 +11,20 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 options(encoding = "utf-8")
 
+
 ```
 
 ```{r Preparación de paquetes, message=FALSE, warning=FALSE, include=FALSE}
 
+rm(list = ls())
 install.packages("openxlsx")
 library(openxlsx)
 library(tidyr)
 library(dplyr)
 library(openxlsx)
 library(ggplot2)
+library(readr)
+library(psych)
 
 ```
 # Primer Punto
@@ -32,10 +36,8 @@ library(ggplot2)
 ```{r 1.1, include=FALSE}
 
 # Definimos directorio
-getwd()
-setwd("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Taller de R/Talleres/Taller 1/Solucion-Talleres-R/Taller 2")
-
-#setwd("C:/Users/Yilmer Palacios/Desktop/Solución Talleres R/Solucion-Talleres-R/Taller 2")
+directorio <- getwd()
+setwd(directorio)
 
 # Cargamos datos
 
@@ -44,6 +46,9 @@ IPC <- read.table("1.2.5.IPC_Serie_variaciones.csv", header = TRUE, sep = ",")
 #Separación de año y mes en nuevas columnas
 IPC$Año <- substr(IPC$Mes.Año, start = 1, stop = 4) 
 IPC$Mes <- substr(IPC$Mes.Año, start = 5, stop = 7)
+IPC$Mes.Año2 <- paste("01", IPC$Mes, IPC$Año, sep="-")
+IPC$Mes.Año2 <- as.Date(IPC$Mes.Año2, "%d-%m-%Y")
+
 
 #Definición de formato
 IPC$Año <- as.numeric(IPC$Año)
@@ -51,11 +56,6 @@ IPC$Mes <- as.numeric(IPC$Mes)
 
 IPC$Indice <- gsub(",",".",IPC$Indice)
 IPC$Indice <- as.numeric(IPC$Indice)
-
-#IPC$Mes.Año <- as.character(IPC$Mes.Año, "%Y%m")
-#IPC$Mes.Año <- paste(substr(IPC$Mes.Año, start = 1, stop = 4),"-",substr(IPC$Mes.Año, start = 5, stop = 10))
-#IPC$Mes.Año <- 
-#IPC$Mes.Año <- as.Date(IPC$Mes.Año, "%Y - %m")
 
 
 precios_carbon <- read.table("precios_carbon.csv", header = TRUE,
@@ -81,31 +81,68 @@ precios_petroleo$fecha <- as.Date(precios_petroleo$fecha, "%Y-%m-%d")
 
 ```{r}
 
-#variables en las bases
-#numeros de observaciones
-#periodo de tiempo comprendido
-#tipo de variables
+### Hacemos la descripción de la base de datos IPC
+cat("DESCRIPCION DE LA BASE DE DATOS IPC \n")
+paste("La base de datos IPC tiene", length(IPC$Mes.Año2), "observaciones, su fecha inicia en ", min(IPC$Mes.Año2), "y termina en", max(IPC$Mes.Año2), "las variables y clases de variables son:")
+cat("\n")
+str(IPC)
+cat("\n Otros datos relevantes son: \n")
+summary(IPC)
+cat("\n \n")
 
-#str(Carbon$fecha)
-#colnames(Carbon)
-#names(Carbon)
 
+### Hacemos la descripción de la base de datos Precios del Carbón
+cat("DESCRIPCION DE LA BASE DE DATOS PRECIOS DEL CARBÓN \n")
+paste("La base de datos precios_carbon tiene", length(precios_carbon$fecha), "observaciones, su fecha inicia en ", min(precios_carbon$fecha), "y termina en", max(precios_carbon$fecha), "las variables y clases de variables son:")
+cat("\n")
 str(precios_carbon)
+cat("\n Otros datos relevantes son: \n")
 summary(precios_carbon)
+cat("\n \n")
 
+
+### Hacemos la descripción de la base de datos de Precios del Gas Natural
+cat("DESCRIPCION DE LA BASE DE DATOS GAS NATURAL \n")
+paste("La base de datos precios_gas_nat tiene", length(precios_gas_nat$fecha), "observaciones, su fecha inicia en ", min(precios_gas_nat$fecha), "y termina en", max(precios_gas_nat$fecha), "las variables y clases de variables son:")
+cat("\n")
 str(precios_gas_nat)
+cat("\n Otros datos relevantes son: \n")
 summary(precios_gas_nat)
+cat("\n \n")
 
+
+### Hacemos la descripción de la base de datos de Precios de la Gasolina
+cat("DESCRIPCION DE LA BASE DE DATOS PRECIOS DE LA GASOLINA \n")
+paste("La base de datos precios_gasolina tiene", length(precios_gasolina$fecha), "observaciones, su fecha inicia en ", min(precios_gasolina$fecha), "y termina en", max(precios_gasolina$fecha), "las variables y clases de variables son:")
+cat("\n")
 str(precios_gasolina)
+cat("\n Otros datos relevantes son: \n")
 summary(precios_gasolina)
+cat("\n \n")
 
+
+### Hacemos la descripción de la base de datos de Precios del Petróleo
+cat("DESCRIPCION DE LA BASE DE DATOS PRECIOS DEL PETRÓLEO \n")
+paste("La base de datos precios_petroleo tiene", length(precios_petroleo$fecha), "observaciones, su fecha inicia en ", min(precios_petroleo$fecha), "y termina en", max(precios_petroleo$fecha), "las variables y clases de variables son:")
+cat("\n")
 str(precios_petroleo)
+cat("\n Otros datos relevantes son: \n")
 summary(precios_petroleo)
+cat("\n \n")
 
 
-#apply(Crudo)
+#str(precios_carbon)
+#summary(precios_carbon)
 
-#summary(Crudo)
+#str(precios_gas_nat)
+#summary(precios_gas_nat)
+
+#str(precios_gasolina)
+#summary(precios_gasolina)
+
+#str(precios_petroleo)
+#summary(precios_petroleo)
+
 
 ```
 ## Explorando las bases de datos de los precios de forma individual identifican que no todas tienen el mismo número de observaciones. Un hecho muy común cuando se trabaja con datos en formato panel es que algunas fechas para algunos productos no estén en la base de datos, es decir, hay fechas faltantes. A continuación, ustedes quieren “explicitar” las fechas faltantes.
@@ -189,7 +226,7 @@ head(precios_combustible)
 
 ```{r}
 
-precios_combustible$fecha <- as.Date(precios_combustible$fecha,"%d/%M/%Y")
+precios_combustible$fecha <- as.Date(precios_combustible$fecha, "%d/%m/%Y")
 
 precios_combustible[2:5] <- round(precios_combustible[-1],2)
 
@@ -294,7 +331,7 @@ tabla_resumen
 
 ```{r}
 
-transf_precios_constantes <- function(precio,año,mes,IPC){
+transf_precios_constantes <- function(precio,año,mes,IPC2){
   
   #Input 
   #precio: lista (num) de precios del combustible
@@ -302,12 +339,14 @@ transf_precios_constantes <- function(precio,año,mes,IPC){
   #mes: mes base (num) para cálculo de precios constantes [1,12]
   #IPC: lista de valores del índice (num)
   
-  tabla_resumen <- tabla_resumen %>% mutate(Mes.Año = 
+  tabla_resumen2 <- tabla_resumen
+  tabla_resumen2 <- tabla_resumen2 %>% mutate(Mes.Año = 
                                               paste(Año,Mes,sep =""))
   
-  IPC <- IPC %>% mutate(Mes.Año =                                               paste(Año,Mes,sep =""))
+  IPC2 <- IPC2 %>% mutate(Mes.Año = 
+                            paste(Año,Mes,sep =""))
   
-  resumen_conIPC <- merge(tabla_resumen,IPC[,c("Mes.Año","Indice")],
+  resumen_conIPC <- merge(tabla_resumen2,IPC2[,c("Mes.Año","Indice")],
                           by = "Mes.Año")
   
   resumen_conIPC <- resumen_conIPC[order(resumen_conIPC$Año,
@@ -326,18 +365,18 @@ transf_precios_constantes <- function(precio,año,mes,IPC){
   
   #Extracción del nombre del combustible
   combust_name <- substr(combust_name,
-                         nchar("tabla_resumen$precio_")+1,
-                         nchar("tabla_resumen$precio_")+15)
+                         nchar("tabla_resumen2$precio_"),
+                         nchar("tabla_resumen2$precio_")+15)
                         
   #Nombre completo con combustible, año y mes
   name_columna <- paste(combust_name,año,mes,"_transformada")
   names(resumen_conIPC)[9] <- name_columna
-  return(resumen_conIPC)
+  return(resumen_conIPC[9])
 }
 
-tabla_resumen <- 
-  transf_precios_constantes(tabla_resumen$precio_gas_natural,
-                                         2012,11,IPC)
+#tabla_resumen <- 
+ # transf_precios_constantes(tabla_resumen$precio_gas_natural,
+  #                                       2012,11,IPC)
 
 ```
 
@@ -345,11 +384,37 @@ tabla_resumen <-
 
 ```{r}
 
+### Usaremos como base el IPC de noviembre de 2011
+
+dataexportada <- data.frame(tabla_resumen[,"Año"])
+dataexportada [,2] <- data.frame(tabla_resumen[,"Mes"])
+dataexportada [,3] <- data.frame(tabla_resumen[,3])
+dataexportada [,4] <-  transf_precios_constantes(tabla_resumen$precio_carbon,
+                                         2012,11,IPC)
+
+
+dataexportada [,5] <- data.frame(tabla_resumen[,4])
+dataexportada [,6] <-  transf_precios_constantes(tabla_resumen$precio_gas_natural,
+                                         2012,11,IPC)
+
+
+dataexportada[,7] <- data.frame(tabla_resumen[,5])
+dataexportada[,8] <-  transf_precios_constantes(tabla_resumen$precio_gasolina,
+                                         2012,11,IPC)
+
+
+dataexportada[,9] <- data.frame(tabla_resumen[,6])
+dataexportada[,10] <-  transf_precios_constantes(tabla_resumen$precio_petroleo,
+                                         2012,11,IPC)
+
+
 ```
 
 ### 1.12. Exporte la base de datos consolidada en un archivo .csvSegundo punto
 
 ```{r}
+
+write.csv(dataexportada, "./dataconsolidada.csv")
 
 ```
 
@@ -361,11 +426,18 @@ tabla_resumen <-
 
 ```{r}
 
+dataconsolidada <- read.table("dataconsolidada.csv", header = TRUE, sep = ",")
+describe(dataconsolidada[,4:11])
+
 ```
 
 ### 2.2. Presenten una gráfica de dispersión de puntos (scatter) donde en el eje X esté el precio del carbón y en el eje Y el precio de la gasolina, ambos reales sobre un año determinado, añadan una línea de ajuste lineal, título, labels y demás elementos que permitan una gráfica autocontenida. Expliquen e interpreten en el documento los elementos más importantes de la base de datos.
 
 ```{r}
+
+ggplot(data = dataconsolidada, aes(x = carbon.2012.11._transformada, y = gasolina.2012.11._transformada)) +
+  geom_point() + geom_smooth(method = "lm") + labs(title = "Precio de la Gasolina vs Precio del Carbon", subtitle = "Precios reales",
+       x = "Carbón", y = "Gasolina")
 
 ```
 
@@ -373,10 +445,48 @@ tabla_resumen <-
 
 ```{r}
 
+# Creamos una columna llamada fecha y le damos clase Date
+dataconsolidada$fecha <- as.character(paste0(dataconsolidada$Año,"-", dataconsolidada$Mes,"-","01"))
+dataconsolidada$fecha <- as.Date(dataconsolidada$fecha, "%Y-%m-%d")
+
+# Creamos data frames para cada commodity luego los unimos en un solo dataframe
+PRcarbon <- data.frame(dataconsolidada$fecha)
+PRcarbon[,2] <- dataconsolidada$carbon.2012.11._transformada
+PRcarbon[,3] <- "Carbon"
+
+PRgasnat <- data.frame(dataconsolidada$fecha)
+PRgasnat[,2] <- dataconsolidada$precio_gas_natural
+PRgasnat[,3] <- "GasNatural"
+
+PRgasolina <- data.frame(dataconsolidada$fecha)
+PRgasolina[,2] <- dataconsolidada$gasolina.2012.11._transformada
+PRgasolina[,3] <- "Gasolina"
+
+PRPetroleo <- data.frame(dataconsolidada$fecha)
+PRPetroleo[,2] <- dataconsolidada$petroleo.2012.11._transformada
+PRPetroleo[,3] <- "Petroleo"
+
+serietiempo <- rbind(PRcarbon, PRgasnat, PRgasolina, PRPetroleo)
+colnames(serietiempo) <- c("fecha", "Precio", "Commodity")
+
+
+# Acotamos la serie al año 2010
+serietiempo2 <- serietiempo[serietiempo[,1:3]>="2010-01-01" & serietiempo[,1:3] <"2011-01-01",1:3]
+
+
+# Graficamos
+ggplot(serietiempo2, aes(x = fecha, y = Precio)) + 
+  geom_line(aes(color = Commodity), size = 1) +
+  scale_color_manual(values = c("red", "blue", "green", "brown")) +
+  theme_minimal()+  labs(title = "Precios reales de combustibles",
+       x = "fecha", y = "Precios") 
+
 ```
 
 ###2.4. Realicen una visualización de tipo “heatmap” donde puedan identificar el cambio mensual del precio del Carbón, Petróleo y Gas Natural para cada uno de los años
 
 ```{r}
+
+
 
 ```
