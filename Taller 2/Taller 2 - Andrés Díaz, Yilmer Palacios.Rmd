@@ -27,6 +27,7 @@ library(readr)
 library(psych)
 
 ```
+
 # Primer Punto
 
 ## Ustedes cuentan con varias bases de datos que cuenta con información del precio del Petróleo Brent, del Gas Natural, Carbón, Gasolina Motor Corriente y finalmente del IPC para Colombia desde el 2000 hasta el 2024 con una periodicidad mensual. Cada una de estas bases de datos toma el nombre del bien al que hacen referencia junto con el sufijo .csv. Por ejemplo, cuentan con “Carbón.csv” y así con los demás bienes. Cada una de estas bases cuenta con tres columnas, una primera columna con la fecha mensualizada, una segunda columna con el precio del bien para Colombia y una tercera columna con el precio del bien promedio en el mundo. En su trabajo como analistas de información se les solicita realizar un reporte sobre estas series. Para ello, su jefa les solicita realizar las siguientes tareas:
@@ -145,6 +146,7 @@ cat("\n \n")
 
 
 ```
+
 ## Explorando las bases de datos de los precios de forma individual identifican que no todas tienen el mismo número de observaciones. Un hecho muy común cuando se trabaja con datos en formato panel es que algunas fechas para algunos productos no estén en la base de datos, es decir, hay fechas faltantes. A continuación, ustedes quieren “explicitar” las fechas faltantes.
 
 ### 1.3. Creen una función que tenga como parámetros un dataframe, una columna de fecha y una columna de precio, posteriormente, la función tiene que agregar las fechas faltantes en la columna de fecha y añadir un missing value en su valor correspondiente en el precio para esta fecha explicitada. Finalmente, tiene que retornar el dataframe con las fechas completas.
@@ -328,7 +330,7 @@ head(tabla_resumen)
 
 ```
 
-### 1.10. Creen una función que tenga como parámetros: una columna de una serie de un precio de la base de datos, un año, un mes y la columna del IPC de Colombia. Posteriormente, la función debe crear una nueva columna cuyo nombre sea: el “nombre del bien” + “año base” + “mes base” + el sufijo “_transformada”. Esta columna debe ser la transformación de valores nominales de la serie a valores reales con base en el año que toma como parámetro la función. Es decir, utilizando la ecuación (1) tendrán que consolidar una función que transforme los valores nominales en precios constantes con base en cualquier mes-año.
+### 1.10. Creen una función que tenga como parámetros: una columna de una serie de un precio de la base de datos, un año, un mes y la columna del IPC de Colombia. Posteriormente, la función debe crear una nueva columna cuyo nombre sea: el “nombre del bien” + “año base” + “mes base” + el sufijo “\_transformada”. Esta columna debe ser la transformación de valores nominales de la serie a valores reales con base en el año que toma como parámetro la función. Es decir, utilizando la ecuación (1) tendrán que consolidar una función que transforme los valores nominales en precios constantes con base en cualquier mes-año.
 
 ```{r}
 
@@ -442,13 +444,23 @@ describe(dataconsolidada[,4:11])
 ```{r}
 
 #Tomamos el año 2010 para estudio
+
+# Creamos una columna llamada fecha y le damos clase Date
+dataconsolidada$fecha <- as.character(paste0(dataconsolidada$Año,"-", dataconsolidada$Mes,"-","01"))
+dataconsolidada$fecha <- as.Date(dataconsolidada$fecha, "%Y-%m-%d")
+
 minaño <- "2010-01-01"  #fecha menor del intervalo a graficar
 maxaño <- "2011-01-01"  #fecha mayor del intervalo a graficar
 serieañodisper <- dataconsolidada[dataconsolidada[,12]>=minaño & dataconsolidada[,12]< maxaño,]
 
-ggplot(data = serieañodisper, aes(x = carbon.2012.11._transformada, y = gasolina.2012.11._transformada)) +
-  geom_point() + geom_smooth(method = "lm") + labs(title = "Precio de la Gasolina vs Precio del Carbon", subtitle = "Precios reales",
-       x = "Carbón", y = "Gasolina")
+serieXnombre <- serieañodisper[,5]
+serieYnombre <- serieañodisper[,9]
+
+
+ggplot(data = serieañodisper, aes(x = serieXnombre, y = serieYnombre)) +
+  geom_point() + geom_smooth(method = "lm")  + labs(title = "Precio de la Gasolina vs Precio del Carbon - 2010", subtitle = "Precios reales (Base: Noviembre 2012)",
+       x = "Precio del carbón [COP/MBtu]", 
+       y = "Precio de la gasolina [COP/MBtu]")
 
 ```
 
@@ -495,14 +507,77 @@ ggplot(serietiempo2, aes(x = fecha, y = Precio)) +
   geom_line(aes(color = Commodity), size = 1) +
   scale_color_manual(values = c("red", "blue", "green", "brown")) +
   theme_minimal()+  labs(title = "Precios reales de combustibles",
-       x = "fecha", y = "Precios") 
+                         subtitle = "Base: Noviembre 2012",
+       x = "fecha", y = "Precios [COP/MBtu]") 
 
 ```
 
 ###2.4. Realicen una visualización de tipo “heatmap” donde puedan identificar el cambio mensual del precio del Carbón, Petróleo y Gas Natural para cada uno de los años
 
 ```{r}
+#install.packages("ggpubr")
+library(ggpubr)
+
+Meses <- seq(2,12,by = 2)
+
+#Precio carbón
+mapa_carbon <- ggplot(dataconsolidada,aes(Año, Mes, 
+                            fill = carbon.2012.11._transformada))+
+                geom_tile()+
+                
+                labs(fill = "Precio real [COP/MBtu]")+
+                scale_fill_gradient(low="yellow", high="red")+
+                theme_bw()+
+                scale_y_discrete(name ="Mes",            
+                                  limits=Meses)
+  
+
+#Precio gas natural
+mapa_gas_n <- ggplot(dataconsolidada,aes(Año, Mes, 
+                            fill = gas_natural.2012.11._transformada))+
+                geom_tile()+
+                
+                labs(fill = "Precio real [COP/MBtu]")+
+                scale_fill_gradient(low="yellow", high="red")+
+                theme_bw()+
+                scale_y_discrete(name ="Mes",            
+                                  limits=Meses)
+  
+#Precio gasolina
+mapa_gasolina <- ggplot(dataconsolidada,aes(Año, Mes, 
+                            fill = gasolina.2012.11._transformada))+
+                geom_tile()+
+                
+                labs(fill = "Precio real [COP/MBtu]")+
+                scale_fill_gradient(low="yellow", high="red")+
+                theme_bw()+
+                scale_y_discrete(name ="Mes",            
+                                  limits=Meses)
 
 
+#Precio petroleo
+mapa_petroleo <- ggplot(dataconsolidada,aes(Año, Mes, 
+                            fill = petroleo.2012.11._transformada))+
+                geom_tile()+
+                
+                labs(fill = "Precio real [COP/MBtu]")+
+                scale_fill_gradient(low="yellow", high="red")+
+                theme_bw()+
+                scale_y_discrete(name ="Mes",            
+                                  limits=Meses)
+  
+
+mapa_comb<- ggarrange(
+  mapa_carbon, mapa_gas_n, mapa_gasolina, mapa_petroleo,
+  ncol = 2, nrow = 2,
+  labels = c("Panel A: Precio del carbón", 
+             "Panel B: Precio del gas natural",
+             "Panel C: Precio de la gasolina",
+             "Panel D: Precio del petroleo"),
+  common.legend = TRUE, legend = "bottom", heights = c(7,7),
+  font.label=list(color="black",size=9)
+)
+
+  mapa_comb
 
 ```
