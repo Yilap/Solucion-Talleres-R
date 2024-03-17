@@ -227,9 +227,8 @@ head(precios_combustible)
 ```{r}
 
 precios_combustible$fecha <- as.Date(precios_combustible$fecha, "%d/%m/%Y")
-
+precios_combustible$fecha <- format(precios_combustible$fecha, "%d/%m/%Y")
 precios_combustible[2:5] <- round(precios_combustible[-1],2)
-
 head(precios_combustible)
 
 ```
@@ -239,6 +238,8 @@ head(precios_combustible)
 ```{r}
 
 #Incluir mes y año
+
+precios_combustible$fecha <- as.Date(precios_combustible$fecha, "%d/%m/%Y")
 
 precios_combustible <- precios_combustible %>%
                         mutate(Mes = as.numeric(format(fecha,"%m"))) 
@@ -297,7 +298,7 @@ precios_combustible <- precios_combustible %>%
 
 #Verificación de imputación de valores
 
-sum(is.na(precios_combustible))
+print(paste("La cantidad de NA despúes de reemplaza los NA por el promedio es: ",sum(is.na(precios_combustible))))
 
 
 ```
@@ -322,7 +323,7 @@ tabla_resumen <- precios_combustible %>% group_by(Año,Mes) %>%
                             precio_petroleo = 
                               mean(precio_petroleo))
 
-tabla_resumen
+head(tabla_resumen)
 
 
 ```
@@ -386,26 +387,29 @@ transf_precios_constantes <- function(precio,año,mes,IPC2){
 
 ### Usaremos como base el IPC de noviembre de 2011
 
+añoDE <- 2012 # año base para el cálculo de precios reales
+mesDE <- 11 # mes base para el cálculo de precios reales
+
 dataexportada <- data.frame(tabla_resumen[,"Año"])
 dataexportada [,2] <- data.frame(tabla_resumen[,"Mes"])
 dataexportada [,3] <- data.frame(tabla_resumen[,3])
 dataexportada [,4] <-  transf_precios_constantes(tabla_resumen$precio_carbon,
-                                         2012,11,IPC)
+                                         añoDE,mesDE,IPC)
 
 
 dataexportada [,5] <- data.frame(tabla_resumen[,4])
 dataexportada [,6] <-  transf_precios_constantes(tabla_resumen$precio_gas_natural,
-                                         2012,11,IPC)
+                                         añoDE,mesDE,IPC)
 
 
 dataexportada[,7] <- data.frame(tabla_resumen[,5])
 dataexportada[,8] <-  transf_precios_constantes(tabla_resumen$precio_gasolina,
-                                         2012,11,IPC)
+                                         añoDE,mesDE,IPC)
 
 
 dataexportada[,9] <- data.frame(tabla_resumen[,6])
 dataexportada[,10] <-  transf_precios_constantes(tabla_resumen$precio_petroleo,
-                                         2012,11,IPC)
+                                         añoDE,mesDE,IPC)
 
 
 ```
@@ -431,15 +435,24 @@ describe(dataconsolidada[,4:11])
 
 ```
 
+#### Como se puede apreciar en la tabla, todas las variables de precios reales tienen medias cercanas al 110, siendo la media del carbón la más barata y como es de esperarse la de la gasolina la más cara; por otro lado, el precio real del gas natural fue el que tuvo mayor desviación estándar en su precio, aunque no es una medida de volatilidad o varianza directa si nos muestra que su rango de precios fue más extenso, es posible que en algunos periodos la volatilidad o varianza haya sido más severa que en otras series; finalmente la tabla nos muestra que caso contrario al precio real del gas natural, los precios reales de la gasolina tuvieron menor desviación estandar presentando mayor estabilidad con el paso del tiempo.
+
 ### 2.2. Presenten una gráfica de dispersión de puntos (scatter) donde en el eje X esté el precio del carbón y en el eje Y el precio de la gasolina, ambos reales sobre un año determinado, añadan una línea de ajuste lineal, título, labels y demás elementos que permitan una gráfica autocontenida. Expliquen e interpreten en el documento los elementos más importantes de la base de datos.
 
 ```{r}
 
-ggplot(data = dataconsolidada, aes(x = carbon.2012.11._transformada, y = gasolina.2012.11._transformada)) +
+#Tomamos el año 2010 para estudio
+minaño <- "2010-01-01"  #fecha menor del intervalo a graficar
+maxaño <- "2011-01-01"  #fecha mayor del intervalo a graficar
+serieañodisper <- dataconsolidada[dataconsolidada[,12]>=minaño & dataconsolidada[,12]< maxaño,]
+
+ggplot(data = serieañodisper, aes(x = carbon.2012.11._transformada, y = gasolina.2012.11._transformada)) +
   geom_point() + geom_smooth(method = "lm") + labs(title = "Precio de la Gasolina vs Precio del Carbon", subtitle = "Precios reales",
        x = "Carbón", y = "Gasolina")
 
 ```
+
+#### Para 2010, podemos apreciar que la relación lineal entre los precios reales del carbón y de la gasolina es negativa, sin realizar pruebas de hipotesis pareciera que cuando el precio del carbón sube, baja el de la gasolina; sin embargo, la pendiente es casi horizontal lo cual indica que tienen una correlación débil, es decir que el compartamiento del carbón pareciera no estár correlacionado con el de la gasolina. En caso de querer realizar un analisis más robusto, se recomienda realizar una regresión lineal entre ambos commodities y realizar pruebas de hipotesis (asumiendo que se cumplen supuestos de series estacionarias).
 
 ### 2.3. Presenten una gráfica de serie de tiempo con el precio real del Carbón, Gas Natural, Petróleo y Gasolina Corriente para un mismo año, asegúrense de que tenga el título, labels, colores y demás elementos que permitan una gráfica autocontenida. Expliquen e interpreten en el documento los elementos más importantes de la base de datos.
 
@@ -451,19 +464,19 @@ dataconsolidada$fecha <- as.Date(dataconsolidada$fecha, "%Y-%m-%d")
 
 # Creamos data frames para cada commodity luego los unimos en un solo dataframe
 PRcarbon <- data.frame(dataconsolidada$fecha)
-PRcarbon[,2] <- dataconsolidada$carbon.2012.11._transformada
+PRcarbon[,2] <- dataconsolidada[,5]
 PRcarbon[,3] <- "Carbon"
 
 PRgasnat <- data.frame(dataconsolidada$fecha)
-PRgasnat[,2] <- dataconsolidada$precio_gas_natural
+PRgasnat[,2] <- dataconsolidada[,7]
 PRgasnat[,3] <- "GasNatural"
 
 PRgasolina <- data.frame(dataconsolidada$fecha)
-PRgasolina[,2] <- dataconsolidada$gasolina.2012.11._transformada
+PRgasolina[,2] <- dataconsolidada[,9]
 PRgasolina[,3] <- "Gasolina"
 
 PRPetroleo <- data.frame(dataconsolidada$fecha)
-PRPetroleo[,2] <- dataconsolidada$petroleo.2012.11._transformada
+PRPetroleo[,2] <- dataconsolidada[,11]
 PRPetroleo[,3] <- "Petroleo"
 
 serietiempo <- rbind(PRcarbon, PRgasnat, PRgasolina, PRPetroleo)
@@ -471,7 +484,10 @@ colnames(serietiempo) <- c("fecha", "Precio", "Commodity")
 
 
 # Acotamos la serie al año 2010
-serietiempo2 <- serietiempo[serietiempo[,1:3]>="2010-01-01" & serietiempo[,1:3] <"2011-01-01",1:3]
+
+minaño <- "2010-01-01"  #fecha menor del intervalo a graficar
+maxaño <- "2011-01-01"  #fecha mayor del intervalo a graficar
+serietiempo2 <- serietiempo[serietiempo[,1:3]>=minaño & serietiempo[,1:3] <maxaño,1:3]
 
 
 # Graficamos
