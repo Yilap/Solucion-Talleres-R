@@ -3,6 +3,7 @@ title: "Taller 2 - Andrés Díaz, Yilmer Palacios"
 author: "Andrés Díaz - Cod: 200610686, Yilmer Palacios - Cod: 202214473"
 date: "2024-02-17"
 output:
+  word_document: default
   html_document:
     df_print: paged
 ---
@@ -17,7 +18,7 @@ options(encoding = "utf-8")
 ```{r Preparación de paquetes, message=FALSE, warning=FALSE, include=FALSE}
 
 rm(list = ls())
-install.packages("openxlsx")
+#install.packages("openxlsx")
 library(openxlsx)
 library(tidyr)
 library(dplyr)
@@ -34,7 +35,7 @@ library(psych)
 
 ### 1.1. Establezcan un código que les permita cargar en el programa R las bases de datos de los diferentes precios de combustibles.
 
-```{r 1.1, include=FALSE}
+```{r 1.1}
 
 # Definimos directorio
 directorio <- getwd()
@@ -377,9 +378,6 @@ transf_precios_constantes <- function(precio,año,mes,IPC2){
   return(resumen_conIPC[9])
 }
 
-#tabla_resumen <- 
- # transf_precios_constantes(tabla_resumen$precio_gas_natural,
-  #                                       2012,11,IPC)
 
 ```
 
@@ -413,6 +411,7 @@ dataexportada[,9] <- data.frame(tabla_resumen[,6])
 dataexportada[,10] <-  transf_precios_constantes(tabla_resumen$precio_petroleo,
                                          añoDE,mesDE,IPC)
 
+head(dataexportada)
 
 ```
 
@@ -568,15 +567,17 @@ mapa_petroleo <- ggplot(dataconsolidada,aes(Año, Mes,
   
 
 mapa_comb<- ggarrange(
-  mapa_carbon, mapa_gas_n, mapa_gasolina, mapa_petroleo,
-  ncol = 2, nrow = 2,
+  "","",mapa_carbon, mapa_gas_n, "","",mapa_gasolina, mapa_petroleo,
+  ncol = 2, nrow = 4,
   labels = c("Panel A: Precio del carbón", 
              "Panel B: Precio del gas natural",
+             "","",
              "Panel C: Precio de la gasolina",
              "Panel D: Precio del petroleo"),
-  common.legend = TRUE, legend = "bottom", heights = c(7,7),
-  font.label=list(color="black",size=9)
+  common.legend = TRUE, legend = "bottom", heights = c(1,7,1,7),
+  font.label=list(color="black",size=10)
 )
+
 
   mapa_comb
 
